@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/extreamfs.dir/include/main.cpp.o CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o -o extreamfs 
