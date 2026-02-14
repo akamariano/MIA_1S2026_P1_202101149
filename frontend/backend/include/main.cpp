@@ -1,75 +1,126 @@
 #include <iostream>
+#include <sstream>
+#include <vector>
 #include <cstdlib>
 #include <ctime>
-
+#include "mount/mount_manager.h"
 #include "commands/mkdisk.h"
 #include "commands/fdisk.h"
 #include "commands/rmdisk.h"
+#include "commands/mount.h"
 
-int main(int argc, char* argv[]) {
+std::vector<std::string> split(std::string input) {
+    std::stringstream ss(input);
+    std::string word;
+    std::vector<std::string> tokens;
 
-srand(time(nullptr));
+    while (ss >> word) {
+        tokens.push_back(word);
+    }
 
-if (argc < 2) {
-std::cout << "Debe ingresar un comando\n";
-return 1;
+    return tokens;
 }
 
-std::string command = argv[1];
+int main() {
 
-// ================== MKDISK ==================
-if (command == "mkdisk") {
+    srand(time(nullptr));
 
-if (argc != 6) {
-std::cout << "Uso: ./extreamfs mkdisk <size> <unit> <fit> <path>\n";
-return 1;
-}
+    std::string input;
 
-int size = std::stoi(argv[2]);
-char unit = argv[3][0];
-std::string fit = argv[4];
+    std::cout << "====== EXTREAMFS CONSOLA ======\n";
+    std::cout << "Escriba 'exit' para salir\n\n";
 
-std::string path = argv[5];
+    while (true) {
 
-MkDisk mk;
-mk.execute(size, unit, fit, path);
-}
+        std::cout << "extreamfs> ";
+        std::getline(std::cin, input);
 
-// ================== FDISK ==================
-else if (command == "fdisk") {
+        if (input.empty()) continue;
 
-if (argc != 8) {
-std::cout << "Uso: ./extreamfs fdisk <size> <unit> <path> <type> <fit> <name>\n";
-return 1;
-}
+        if (input == "exit") {
+            std::cout << "Saliendo...\n";
+            break;
+        }
 
-int size = std::stoi(argv[2]);
-char unit = argv[3][0];
-std::string path = argv[4];
-char type = argv[5][0];
-std::string fit = argv[6];
-std::string name = argv[7];
+        std::vector<std::string> args = split(input);
 
-FDisk fd;
-fd.execute(size, unit, path, type, fit, name);
-}
+        std::string command = args[0];
 
-// ================== RMDISK ==================
-else if (command == "rmdisk") {
+        // ================== MKDISK ==================
+        if (command == "mkdisk") {
 
-if (argc != 3) {
-std::cout << "Uso: ./extreamfs rmdisk <path>\n";
-return 1;
-}
+            if (args.size() != 5) {
+                std::cout << "Uso: mkdisk <size> <unit> <fit> <path>\n";
+                continue;
+            }
 
-std::string path = argv[2];
+            int size = std::stoi(args[1]);
+            char unit = args[2][0];
+            std::string fit = args[3];
+            std::string path = args[4];
 
-RmDisk rm;
-rm.execute(path);
-}
+            MkDisk mk;
+            mk.execute(size, unit, fit, path);
+        }
 
-else {
-std::cout << "Comando no reconocido\n";
-}
-return 0;
+        // ================== FDISK ==================
+        else if (command == "fdisk") {
+
+            if (args.size() != 7) {
+                std::cout << "Uso: fdisk <size> <unit> <path> <type> <fit> <name>\n";
+                continue;
+            }
+
+            int size = std::stoi(args[1]);
+            char unit = args[2][0];
+            std::string path = args[3];
+            char type = args[4][0];
+            std::string fit = args[5];
+            std::string name = args[6];
+
+            FDisk fd;
+            fd.execute(size, unit, path, type, fit, name);
+        }
+
+        // ================== RMDISK ==================
+        else if (command == "rmdisk") {
+
+            if (args.size() != 2) {
+                std::cout << "Uso: rmdisk <path>\n";
+                continue;
+            }
+
+            std::string path = args[1];
+
+            RmDisk rm;
+            rm.execute(path);
+        }
+
+        // ================== MOUNT ==================
+        else if (command == "mount") {
+
+            if (args.size() == 1) {
+                // Solo listar montadas
+                MountManager::showMounted();
+                continue;
+            }
+
+            if (args.size() != 3) {
+                std::cout << "Uso: mount <path> <name>\n";
+                continue;
+            }
+
+            std::string path = args[1];
+            std::string name = args[2];
+
+            Mount m;
+            m.execute(path, name);
+        }
+
+        else {
+            std::cout << "Comando no reconocido\n";
+        }
+    }
+
+    return 0;
 }

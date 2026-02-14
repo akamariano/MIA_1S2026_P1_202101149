@@ -125,12 +125,42 @@ CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmdisk.cpp -o CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s
 
+CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o: CMakeFiles/extreamfs.dir/flags.make
+CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o: ../core/commands/mount.cpp
+CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o: CMakeFiles/extreamfs.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o -MF CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o.d -o CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o -c /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mount.cpp
+
+CMakeFiles/extreamfs.dir/core/commands/mount.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/extreamfs.dir/core/commands/mount.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mount.cpp > CMakeFiles/extreamfs.dir/core/commands/mount.cpp.i
+
+CMakeFiles/extreamfs.dir/core/commands/mount.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/extreamfs.dir/core/commands/mount.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mount.cpp -o CMakeFiles/extreamfs.dir/core/commands/mount.cpp.s
+
+CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o: CMakeFiles/extreamfs.dir/flags.make
+CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o: ../core/mount/mount_manager.cpp
+CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o: CMakeFiles/extreamfs.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o -MF CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o.d -o CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o -c /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/mount/mount_manager.cpp
+
+CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/mount/mount_manager.cpp > CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.i
+
+CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/mount/mount_manager.cpp -o CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.s
+
 # Object files for target extreamfs
 extreamfs_OBJECTS = \
 "CMakeFiles/extreamfs.dir/include/main.cpp.o" \
 "CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o" \
 "CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o" \
-"CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o"
+"CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o" \
+"CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o" \
+"CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o"
 
 # External object files for target extreamfs
 extreamfs_EXTERNAL_OBJECTS =
@@ -139,9 +169,11 @@ extreamfs: CMakeFiles/extreamfs.dir/include/main.cpp.o
 extreamfs: CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o
 extreamfs: CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o
 extreamfs: CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o
+extreamfs: CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o
+extreamfs: CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o
 extreamfs: CMakeFiles/extreamfs.dir/build.make
 extreamfs: CMakeFiles/extreamfs.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable extreamfs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable extreamfs"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/extreamfs.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

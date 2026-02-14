@@ -177,6 +177,30 @@ core/commands/mkdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s
 .PHONY : core/commands/mkdisk.cpp.s
 
+core/commands/mount.o: core/commands/mount.cpp.o
+.PHONY : core/commands/mount.o
+
+# target to build an object file
+core/commands/mount.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o
+.PHONY : core/commands/mount.cpp.o
+
+core/commands/mount.i: core/commands/mount.cpp.i
+.PHONY : core/commands/mount.i
+
+# target to preprocess a source file
+core/commands/mount.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mount.cpp.i
+.PHONY : core/commands/mount.cpp.i
+
+core/commands/mount.s: core/commands/mount.cpp.s
+.PHONY : core/commands/mount.s
+
+# target to generate assembly for a file
+core/commands/mount.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mount.cpp.s
+.PHONY : core/commands/mount.cpp.s
+
 core/commands/rmdisk.o: core/commands/rmdisk.cpp.o
 .PHONY : core/commands/rmdisk.o
 
@@ -200,6 +224,30 @@ core/commands/rmdisk.s: core/commands/rmdisk.cpp.s
 core/commands/rmdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s
 .PHONY : core/commands/rmdisk.cpp.s
+
+core/mount/mount_manager.o: core/mount/mount_manager.cpp.o
+.PHONY : core/mount/mount_manager.o
+
+# target to build an object file
+core/mount/mount_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o
+.PHONY : core/mount/mount_manager.cpp.o
+
+core/mount/mount_manager.i: core/mount/mount_manager.cpp.i
+.PHONY : core/mount/mount_manager.i
+
+# target to preprocess a source file
+core/mount/mount_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.i
+.PHONY : core/mount/mount_manager.cpp.i
+
+core/mount/mount_manager.s: core/mount/mount_manager.cpp.s
+.PHONY : core/mount/mount_manager.s
+
+# target to generate assembly for a file
+core/mount/mount_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.s
+.PHONY : core/mount/mount_manager.cpp.s
 
 include/main.o: include/main.cpp.o
 .PHONY : include/main.o
@@ -240,9 +288,15 @@ help:
 	@echo "... core/commands/mkdisk.o"
 	@echo "... core/commands/mkdisk.i"
 	@echo "... core/commands/mkdisk.s"
+	@echo "... core/commands/mount.o"
+	@echo "... core/commands/mount.i"
+	@echo "... core/commands/mount.s"
 	@echo "... core/commands/rmdisk.o"
 	@echo "... core/commands/rmdisk.i"
 	@echo "... core/commands/rmdisk.s"
+	@echo "... core/mount/mount_manager.o"
+	@echo "... core/mount/mount_manager.i"
+	@echo "... core/mount/mount_manager.s"
 	@echo "... include/main.o"
 	@echo "... include/main.i"
 	@echo "... include/main.s"

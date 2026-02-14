@@ -13,4 +13,7 @@ add_executable(extreamfs
     core/commands/mkdisk.cpp
     core/commands/fdisk.cpp
     core/commands/rmdisk.cpp
+    core/commands/mount.cpp
+    core/mount/mount_manager.cpp
+
 )
