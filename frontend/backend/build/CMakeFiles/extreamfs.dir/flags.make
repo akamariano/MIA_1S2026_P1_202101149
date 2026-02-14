@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core
+CXX_INCLUDES = -I/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include -I/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core
 
 CXX_FLAGS = 
 

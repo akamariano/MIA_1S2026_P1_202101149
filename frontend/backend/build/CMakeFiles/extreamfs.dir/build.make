@@ -97,19 +97,51 @@ CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkdisk.cpp -o CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s
 
+CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o: CMakeFiles/extreamfs.dir/flags.make
+CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o: ../core/commands/fdisk.cpp
+CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o: CMakeFiles/extreamfs.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o -MF CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o.d -o CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o -c /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/fdisk.cpp
+
+CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/fdisk.cpp > CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.i
+
+CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/fdisk.cpp -o CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.s
+
+CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o: CMakeFiles/extreamfs.dir/flags.make
+CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o: ../core/commands/rmdisk.cpp
+CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o: CMakeFiles/extreamfs.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o -MF CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o.d -o CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o -c /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmdisk.cpp
+
+CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmdisk.cpp > CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.i
+
+CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmdisk.cpp -o CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s
+
 # Object files for target extreamfs
 extreamfs_OBJECTS = \
 "CMakeFiles/extreamfs.dir/include/main.cpp.o" \
-"CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o"
+"CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o" \
+"CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o" \
+"CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o"
 
 # External object files for target extreamfs
 extreamfs_EXTERNAL_OBJECTS =
 
 extreamfs: CMakeFiles/extreamfs.dir/include/main.cpp.o
 extreamfs: CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o
+extreamfs: CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o
+extreamfs: CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o
 extreamfs: CMakeFiles/extreamfs.dir/build.make
 extreamfs: CMakeFiles/extreamfs.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable extreamfs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable extreamfs"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/extreamfs.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

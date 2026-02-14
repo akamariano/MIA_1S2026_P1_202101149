@@ -129,6 +129,30 @@ extreamfs/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/build
 .PHONY : extreamfs/fast
 
+core/commands/fdisk.o: core/commands/fdisk.cpp.o
+.PHONY : core/commands/fdisk.o
+
+# target to build an object file
+core/commands/fdisk.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o
+.PHONY : core/commands/fdisk.cpp.o
+
+core/commands/fdisk.i: core/commands/fdisk.cpp.i
+.PHONY : core/commands/fdisk.i
+
+# target to preprocess a source file
+core/commands/fdisk.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.i
+.PHONY : core/commands/fdisk.cpp.i
+
+core/commands/fdisk.s: core/commands/fdisk.cpp.s
+.PHONY : core/commands/fdisk.s
+
+# target to generate assembly for a file
+core/commands/fdisk.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.s
+.PHONY : core/commands/fdisk.cpp.s
+
 core/commands/mkdisk.o: core/commands/mkdisk.cpp.o
 .PHONY : core/commands/mkdisk.o
 
@@ -152,6 +176,30 @@ core/commands/mkdisk.s: core/commands/mkdisk.cpp.s
 core/commands/mkdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s
 .PHONY : core/commands/mkdisk.cpp.s
+
+core/commands/rmdisk.o: core/commands/rmdisk.cpp.o
+.PHONY : core/commands/rmdisk.o
+
+# target to build an object file
+core/commands/rmdisk.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o
+.PHONY : core/commands/rmdisk.cpp.o
+
+core/commands/rmdisk.i: core/commands/rmdisk.cpp.i
+.PHONY : core/commands/rmdisk.i
+
+# target to preprocess a source file
+core/commands/rmdisk.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.i
+.PHONY : core/commands/rmdisk.cpp.i
+
+core/commands/rmdisk.s: core/commands/rmdisk.cpp.s
+.PHONY : core/commands/rmdisk.s
+
+# target to generate assembly for a file
+core/commands/rmdisk.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s
+.PHONY : core/commands/rmdisk.cpp.s
 
 include/main.o: include/main.cpp.o
 .PHONY : include/main.o
@@ -186,9 +234,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... extreamfs"
+	@echo "... core/commands/fdisk.o"
+	@echo "... core/commands/fdisk.i"
+	@echo "... core/commands/fdisk.s"
 	@echo "... core/commands/mkdisk.o"
 	@echo "... core/commands/mkdisk.i"
 	@echo "... core/commands/mkdisk.s"
+	@echo "... core/commands/rmdisk.o"
+	@echo "... core/commands/rmdisk.i"
+	@echo "... core/commands/rmdisk.s"
 	@echo "... include/main.o"
 	@echo "... include/main.i"
 	@echo "... include/main.s"

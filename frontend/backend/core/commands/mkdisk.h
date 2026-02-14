@@ -5,7 +5,7 @@
 
 class MkDisk {
 public:
-void execute(int size, char unit, char fit, std::string path);
+void execute(int size, char unit, std::string fit, std::string path);
 };
 
 #endif

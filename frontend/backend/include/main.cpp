@@ -27,7 +27,8 @@ return 1;
 
 int size = std::stoi(argv[2]);
 char unit = argv[3][0];
-char fit = argv[4][0];
+std::string fit = argv[4];
+
 std::string path = argv[5];
 
 MkDisk mk;
@@ -46,7 +47,7 @@ int size = std::stoi(argv[2]);
 char unit = argv[3][0];
 std::string path = argv[4];
 char type = argv[5][0];
-char fit = argv[6][0];
+std::string fit = argv[6];
 std::string name = argv[7];
 
 FDisk fd;

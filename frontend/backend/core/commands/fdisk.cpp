@@ -1,4 +1,3 @@
-
 #include "fdisk.h"
 #include <iostream>
 #include <cstdio>
@@ -6,164 +5,159 @@
 #include "../disk/mbr.h"
 
 void FDisk::execute(int size, char unit, std::string path,
-                    char type, char fit, std::string name) {
+                    char type, std::string fit, std::string name) {
 
-if (size <= 0) {
-std::cout << "ERROR: El tamaño debe ser mayor a 0\n";
-return;
-}
+    if (size <= 0) {
+        std::cout << "ERROR: El tamaño debe ser mayor a 0\n";
+        return;
+    }
 
-// Convertir a bytes
-int bytes = size;
+    // Convertir a bytes
+    int bytes = size;
 
-if (unit == 'K' || unit == 'k')
-bytes *= 1024;
-else if (unit == 'M' || unit == 'm')
-bytes *= 1024 * 1024;
-else if (unit != 'B' && unit != 'b') {
-    std::cout << "ERROR: Unidad inválida\n";
-    fclose(file);
-    return;
-}
+    if (unit == 'K' || unit == 'k')
+        bytes *= 1024;
+    else if (unit == 'M' || unit == 'm')
+        bytes *= 1024 * 1024;
+    else if (unit != 'B' && unit != 'b') {
+        std::cout << "ERROR: Unidad inválida\n";
+        return;   // ❌ Ya NO cerramos nada aquí
+    }
 
-// Abrir disco
-FILE* file = fopen(path.c_str(), "rb+");
+    // ================= ABRIR DISCO =================
+    FILE* file = fopen(path.c_str(), "rb+");
 
-if (!file) {
-std::cout << "ERROR: No se pudo abrir el disco\n";
-return;
-}
+    if (!file) {
+        std::cout << "ERROR: No se pudo abrir el disco\n";
+        return;
+    }
 
-// Leer MBR
-MBR mbr;
-fseek(file, 0, SEEK_SET);
-fread(&mbr, sizeof(MBR), 1, file);
+    // Leer MBR
+    MBR mbr;
+    fseek(file, 0, SEEK_SET);
+    fread(&mbr, sizeof(MBR), 1, file);
 
-// ================= VALIDACIONES TYPE Y RESTRICCIONES =================
+    // ================= VALIDAR TYPE =================
+    if (type != 'P' && type != 'E' && type != 'L') {
+        std::cout << "ERROR: Tipo de partición inválido\n";
+        fclose(file);
+        return;
+    }
 
-// Validar tipo
-if (type != 'P' && type != 'E' && type != 'L') {
-std::cout << "ERROR: Tipo de partición inválido\n";
-fclose(file);
-return;
-}
+    // ================= CONTAR PARTICIONES =================
+    int primaryExtendedCount = 0;
+    bool extendedExists = false;
 
-// Contar primarias y extendidas
-int primaryExtendedCount = 0;
-bool extendedExists = false;
+    for (int i = 0; i < 4; i++) {
+        if (mbr.mbr_partitions[i].part_status == '1') {
 
-for (int i = 0; i < 4; i++) {
-if (mbr.mbr_partitions[i].part_status == '1') {
+            if (mbr.mbr_partitions[i].part_type == 'P' ||
+                mbr.mbr_partitions[i].part_type == 'E') {
 
-if (mbr.mbr_partitions[i].part_type == 'P' ||
-mbr.mbr_partitions[i].part_type == 'E') {
+                primaryExtendedCount++;
 
-primaryExtendedCount++;
+                if (mbr.mbr_partitions[i].part_type == 'E') {
+                    extendedExists = true;
+                }
+            }
+        }
+    }
 
-if (mbr.mbr_partitions[i].part_type == 'E') {
-extendedExists = true;
-}
-}
-}
-}
+    if (type == 'E' && extendedExists) {
+        std::cout << "ERROR: Ya existe una partición extendida\n";
+        fclose(file);
+        return;
+    }
 
-// Si intenta crear extendida y ya existe
-if (type == 'E' && extendedExists) {
-std::cout << "ERROR: Ya existe una partición extendida\n";
-fclose(file);
-return;
-}
+    if ((type == 'P' || type == 'E') && primaryExtendedCount >= 4) {
+        std::cout << "ERROR: Límite de 4 particiones alcanzado\n";
+        fclose(file);
+        return;
+    }
 
-// Si ya hay 4 primarias/extendidas
-if ((type == 'P' || type == 'E') && primaryExtendedCount >= 4) {
-std::cout << "ERROR: Límite de 4 particiones primarias/extendidas alcanzado\n";
-fclose(file);
-return;
-}
+    if (type == 'L' && !extendedExists) {
+        std::cout << "ERROR: No existe partición extendida\n";
+        fclose(file);
+        return;
+    }
 
-// Si intenta crear lógica sin extendida
-if (type == 'L' && !extendedExists) {
-std::cout << "ERROR: No existe partición extendida para crear lógica\n";
-fclose(file);
-return;
-}
+    // ================= VALIDAR NOMBRE =================
+    for (int i = 0; i < 4; i++) {
+        if (mbr.mbr_partitions[i].part_status == '1') {
+            if (strncmp(mbr.mbr_partitions[i].part_name, name.c_str(), 16) == 0) {
+                std::cout << "ERROR: Ya existe una partición con ese nombre\n";
+                fclose(file);
+                return;
+            }
+        }
+    }
 
-// Validar nombre repetido
-for (int i = 0; i < 4; i++) {
-if (mbr.mbr_partitions[i].part_status == '1') {
-if (strncmp(mbr.mbr_partitions[i].part_name, name.c_str(), 16) == 0) {
-std::cout << "ERROR: Ya existe una partición con ese nombre\n";
-fclose(file);
-return;
-}
-}
-}
+    // ================= BUSCAR SLOT LIBRE =================
+    int index = -1;
 
-// Buscar espacio libre en tabla de particiones
-int index = -1;
+    for (int i = 0; i < 4; i++) {
+        if (mbr.mbr_partitions[i].part_status == '0') {
+            index = i;
+            break;
+        }
+    }
 
-for (int i = 0; i < 4; i++) {
-if (mbr.mbr_partitions[i].part_status == '0') {
-index = i;
-break;
-}
-}
+    if (index == -1) {
+        std::cout << "ERROR: No hay espacio en la tabla de particiones\n";
+        fclose(file);
+        return;
+    }
 
-if (index == -1) {
-std::cout << "ERROR: No hay espacio en la tabla de particiones\n";
-fclose(file);
-return;
-}
+    // ================= CALCULAR START (First Fit simple) =================
+    int start = sizeof(MBR);
 
-// Calcular start (First Fit simple)
-int start = sizeof(MBR);
+    for (int i = 0; i < 4; i++) {
+        if (mbr.mbr_partitions[i].part_status == '1') {
+            int end = mbr.mbr_partitions[i].part_start +
+                      mbr.mbr_partitions[i].part_size;
+            if (end > start)
+                start = end;
+        }
+    }
 
-for (int i = 0; i < index; i++) {
-if (mbr.mbr_partitions[i].part_status == '1') {
-start = mbr.mbr_partitions[i].part_start +
-mbr.mbr_partitions[i].part_size;
-}
-}
+    if (start + bytes > mbr.mbr_tamano) {
+        std::cout << "ERROR: No hay espacio suficiente en el disco\n";
+        fclose(file);
+        return;
+    }
 
-// Verificar espacio suficiente
-if (start + bytes > mbr.mbr_tamano) {
-std::cout << "ERROR: No hay espacio suficiente en el disco\n";
-fclose(file);
-return;
-}
-// ================= VALIDAR FIT =================
+    // ================= VALIDAR FIT =================
+    if (fit.empty())
+        fit = "WF";
 
-if (fit.empty()) {
-    fit = "WF";
-}
+    if (fit != "BF" && fit != "FF" && fit != "WF") {
+        std::cout << "ERROR: Fit inválido (use BF, FF o WF)\n";
+        fclose(file);
+        return;
+    }
 
-if (fit != "BF" && fit != "FF" && fit != "WF") {
-std::cout << "ERROR: Fit inválido (use BF, FF o WF)\n";
-fclose(file);
-return;
-}
+    // ================= CREAR PARTICIÓN =================
+    Partition newPartition;
+    memset(&newPartition, 0, sizeof(Partition));
+    newPartition.part_status = '1';
+    newPartition.part_type = type;
+    strncpy(newPartition.part_fit, fit.c_str(), 2);
 
-// Crear partición
-Partition newPartition;
 
-newPartition.part_status = '1';
-newPartition.part_type = type; // 'P'
-memset(newPartition.part_fit, 0, 3);
-strncpy(newPartition.part_fit, fit.c_str(), 2);//validación fit
+    newPartition.part_start = start;
+    newPartition.part_size = bytes;
 
-newPartition.part_start = start;
-newPartition.part_size = bytes;
+    memset(newPartition.part_name, 0, 16);
+    strncpy(newPartition.part_name, name.c_str(), 15);
 
-memset(newPartition.part_name, 0, 16);
-strncpy(newPartition.part_name, name.c_str(), 15);
+    // Guardar en MBR
+    mbr.mbr_partitions[index] = newPartition;
 
-// Guardar en MBR
-mbr.mbr_partitions[index] = newPartition;
+    // Reescribir MBR
+    fseek(file, 0, SEEK_SET);
+    fwrite(&mbr, sizeof(MBR), 1, file);
 
-// Reescribir MBR
-fseek(file, 0, SEEK_SET);
-fwrite(&mbr, sizeof(MBR), 1, file);
+    fclose(file);   
 
-fclose(file);
-std::cout << "Partición creada correctamente\n";
+    std::cout << "Partición creada correctamente\n";
 }

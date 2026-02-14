@@ -6,15 +6,16 @@
 #include <ctime>
 #include <cstdlib>
 
-void MkDisk::execute(int size, char unit, char fit, std::string path) {
+void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
 
     if (size <= 0) {
         std::cout << "ERROR: El tamaño debe ser mayor a 0\n";
         return;
     }
 
-    if (fit != 'F' && fit != 'B' && fit != 'W') {
-        std::cout << "ERROR: Fit inválido (use F, B o W)\n";
+    // ✅ Validación correcta para 2 letras
+    if (fit != "BF" && fit != "FF" && fit != "WF") {
+        std::cout << "ERROR: Fit inválido (use BF, FF o WF)\n";
         return;
     }
 
@@ -56,11 +57,15 @@ void MkDisk::execute(int size, char unit, char fit, std::string path) {
     }
 
     MBR mbr;
+    memset(&mbr, 0, sizeof(MBR));
 
     mbr.mbr_tamano = bytes;
     mbr.mbr_fecha_creacion = time(nullptr);
     mbr.mbr_dsk_signature = rand();
-    mbr.dsk_fit = fit;
+
+    // ✅ Copiar correctamente el fit al MBR
+    strncpy(mbr.dsk_fit, fit.c_str(), 2);
+    mbr.dsk_fit[2] = '\0';
 
     // Inicializar particiones
     for (int i = 0; i < 4; i++) {

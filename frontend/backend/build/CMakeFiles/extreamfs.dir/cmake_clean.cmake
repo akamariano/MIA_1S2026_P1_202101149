@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o"
+  "CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o.d"
   "CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o"
   "CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o.d"
+  "CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o"
+  "CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o.d"
   "CMakeFiles/extreamfs.dir/include/main.cpp.o"
   "CMakeFiles/extreamfs.dir/include/main.cpp.o.d"
   "extreamfs"

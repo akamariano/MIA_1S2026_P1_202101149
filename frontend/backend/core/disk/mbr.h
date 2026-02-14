@@ -18,7 +18,7 @@ struct MBR {
     int mbr_tamano;
     time_t mbr_fecha_creacion;
     int mbr_dsk_signature;
-    char dsk_fit;
+    char dsk_fit[3];   // ← NO char simple
     Partition mbr_partitions[4];
 };
 
