@@ -8,16 +8,24 @@
 
 void MkDisk::execute(int size, char unit, char fit, std::string path) {
 
+    if (size <= 0) {
+        std::cout << "ERROR: El tamaño debe ser mayor a 0\n";
+        return;
+    }
+
+    if (fit != 'F' && fit != 'B' && fit != 'W') {
+        std::cout << "ERROR: Fit inválido (use F, B o W)\n";
+        return;
+    }
+
     int bytes = 0;
 
-    if (unit == 'K' || unit == 'k') {
+    if (unit == 'K' || unit == 'k')
         bytes = size * 1024;
-    } 
-    else if (unit == 'M' || unit == 'm') {
+    else if (unit == 'M' || unit == 'm')
         bytes = size * 1024 * 1024;
-    } 
     else {
-        std::cout << "Unidad no válida\n";
+        std::cout << "ERROR: Unidad no válida\n";
         return;
     }
 
@@ -28,9 +36,7 @@ void MkDisk::execute(int size, char unit, char fit, std::string path) {
         return;
     }
 
-    // Buffer de 1024 bytes lleno de ceros
-    char buffer[1024];
-    memset(buffer, 0, sizeof(buffer));
+    char buffer[1024] = {0};
 
     int remaining = bytes;
 
@@ -41,30 +47,34 @@ void MkDisk::execute(int size, char unit, char fit, std::string path) {
     }
 
     file.close();
-    // Reabrimos el archivo para escribir el MBR
-std::fstream disk(path, std::ios::in | std::ios::out | std::ios::binary);
 
-if (!disk) {
-    std::cout << "Error abriendo el disco para escribir el MBR\n";
-    return;
-}
+    std::fstream disk(path, std::ios::in | std::ios::out | std::ios::binary);
 
-MBR mbr;
+    if (!disk) {
+        std::cout << "Error abriendo el disco para escribir el MBR\n";
+        return;
+    }
 
-mbr.mbr_tamano = bytes;
-mbr.mbr_fecha_creacion = time(nullptr);
-mbr.mbr_dsk_signature = rand();
-mbr.dsk_fit = fit;
+    MBR mbr;
 
-// Escribir MBR al inicio del disco
-disk.seekp(0);
-std::cout << "Bytes calculados: " << bytes << std::endl;
+    mbr.mbr_tamano = bytes;
+    mbr.mbr_fecha_creacion = time(nullptr);
+    mbr.mbr_dsk_signature = rand();
+    mbr.dsk_fit = fit;
 
-disk.write(reinterpret_cast<char*>(&mbr), sizeof(MBR));
+    // Inicializar particiones
+    for (int i = 0; i < 4; i++) {
+        mbr.mbr_partitions[i].part_status = '0';
+        mbr.mbr_partitions[i].part_type = '0';
+        memset(mbr.mbr_partitions[i].part_fit, 0, 3);
+        mbr.mbr_partitions[i].part_start = -1;
+        mbr.mbr_partitions[i].part_size = 0;
+        memset(mbr.mbr_partitions[i].part_name, 0, 16);
+    }
 
-disk.close();
+    disk.seekp(0);
+    disk.write(reinterpret_cast<char*>(&mbr), sizeof(MBR));
+    disk.close();
 
-std::cout << "MBR escrito correctamente\n";
-
-    std::cout << "Disco creado correctamente y lleno con ceros\n";
+    std::cout << "Disco creado correctamente\n";
 }
