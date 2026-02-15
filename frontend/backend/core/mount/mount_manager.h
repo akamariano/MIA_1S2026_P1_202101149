@@ -1,21 +1,27 @@
 #ifndef MOUNT_MANAGER_H
 #define MOUNT_MANAGER_H
 
-#include <string>
 #include <vector>
+#include <string>
 
 struct MountedPartition {
     std::string path;
     std::string name;
     std::string id;
+    int start;
+    int size;
 };
 
 class MountManager {
-public:
+private:
     static std::vector<MountedPartition> mountedPartitions;
 
+public:
     static std::string mount(std::string path, std::string name);
     static void showMounted();
+
+    // 🔥 AGREGAR ESTA LÍNEA
+    static MountedPartition* getMountedById(std::string id);
 };
 
 #endif

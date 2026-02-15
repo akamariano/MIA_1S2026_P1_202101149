@@ -2,18 +2,18 @@ cmake_minimum_required(VERSION 3.16)
 project(extreamfs)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# ===== INCLUDES =====
 include_directories(
-    include
-    core
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/core
 )
 
-add_executable(extreamfs
-    include/main.cpp
-    core/commands/mkdisk.cpp
-    core/commands/fdisk.cpp
-    core/commands/rmdisk.cpp
-    core/commands/mount.cpp
-    core/mount/mount_manager.cpp
-
+# ===== SOURCES =====
+file(GLOB_RECURSE SOURCES
+    ${PROJECT_SOURCE_DIR}/core/*.cpp
+    ${PROJECT_SOURCE_DIR}/include/*.cpp
 )
+
+add_executable(extreamfs ${SOURCES})

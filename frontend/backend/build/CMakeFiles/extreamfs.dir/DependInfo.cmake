@@ -10,9 +10,15 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/fdisk.cpp" "CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkdisk.cpp" "CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkfs.cpp" "CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mount.cpp" "CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/commands/mount.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmdisk.cpp" "CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/disk/disk_creator.cpp" "CMakeFiles/extreamfs.dir/core/disk/disk_creator.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/disk/disk_creator.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/SuperBlock.cpp" "CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/ext2_reader.cpp" "CMakeFiles/extreamfs.dir/core/filesystem/ext2_reader.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/filesystem/ext2_reader.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/ext2_writer.cpp" "CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/mount/mount_manager.cpp" "CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/utils/parser.cpp" "CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/main.cpp" "CMakeFiles/extreamfs.dir/include/main.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/include/main.cpp.o.d"
   )
 

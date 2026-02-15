@@ -177,6 +177,30 @@ core/commands/mkdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s
 .PHONY : core/commands/mkdisk.cpp.s
 
+core/commands/mkfs.o: core/commands/mkfs.cpp.o
+.PHONY : core/commands/mkfs.o
+
+# target to build an object file
+core/commands/mkfs.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.o
+.PHONY : core/commands/mkfs.cpp.o
+
+core/commands/mkfs.i: core/commands/mkfs.cpp.i
+.PHONY : core/commands/mkfs.i
+
+# target to preprocess a source file
+core/commands/mkfs.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.i
+.PHONY : core/commands/mkfs.cpp.i
+
+core/commands/mkfs.s: core/commands/mkfs.cpp.s
+.PHONY : core/commands/mkfs.s
+
+# target to generate assembly for a file
+core/commands/mkfs.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.s
+.PHONY : core/commands/mkfs.cpp.s
+
 core/commands/mount.o: core/commands/mount.cpp.o
 .PHONY : core/commands/mount.o
 
@@ -225,6 +249,102 @@ core/commands/rmdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s
 .PHONY : core/commands/rmdisk.cpp.s
 
+core/disk/disk_creator.o: core/disk/disk_creator.cpp.o
+.PHONY : core/disk/disk_creator.o
+
+# target to build an object file
+core/disk/disk_creator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/disk/disk_creator.cpp.o
+.PHONY : core/disk/disk_creator.cpp.o
+
+core/disk/disk_creator.i: core/disk/disk_creator.cpp.i
+.PHONY : core/disk/disk_creator.i
+
+# target to preprocess a source file
+core/disk/disk_creator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/disk/disk_creator.cpp.i
+.PHONY : core/disk/disk_creator.cpp.i
+
+core/disk/disk_creator.s: core/disk/disk_creator.cpp.s
+.PHONY : core/disk/disk_creator.s
+
+# target to generate assembly for a file
+core/disk/disk_creator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/disk/disk_creator.cpp.s
+.PHONY : core/disk/disk_creator.cpp.s
+
+core/filesystem/SuperBlock.o: core/filesystem/SuperBlock.cpp.o
+.PHONY : core/filesystem/SuperBlock.o
+
+# target to build an object file
+core/filesystem/SuperBlock.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.o
+.PHONY : core/filesystem/SuperBlock.cpp.o
+
+core/filesystem/SuperBlock.i: core/filesystem/SuperBlock.cpp.i
+.PHONY : core/filesystem/SuperBlock.i
+
+# target to preprocess a source file
+core/filesystem/SuperBlock.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.i
+.PHONY : core/filesystem/SuperBlock.cpp.i
+
+core/filesystem/SuperBlock.s: core/filesystem/SuperBlock.cpp.s
+.PHONY : core/filesystem/SuperBlock.s
+
+# target to generate assembly for a file
+core/filesystem/SuperBlock.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.s
+.PHONY : core/filesystem/SuperBlock.cpp.s
+
+core/filesystem/ext2_reader.o: core/filesystem/ext2_reader.cpp.o
+.PHONY : core/filesystem/ext2_reader.o
+
+# target to build an object file
+core/filesystem/ext2_reader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_reader.cpp.o
+.PHONY : core/filesystem/ext2_reader.cpp.o
+
+core/filesystem/ext2_reader.i: core/filesystem/ext2_reader.cpp.i
+.PHONY : core/filesystem/ext2_reader.i
+
+# target to preprocess a source file
+core/filesystem/ext2_reader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_reader.cpp.i
+.PHONY : core/filesystem/ext2_reader.cpp.i
+
+core/filesystem/ext2_reader.s: core/filesystem/ext2_reader.cpp.s
+.PHONY : core/filesystem/ext2_reader.s
+
+# target to generate assembly for a file
+core/filesystem/ext2_reader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_reader.cpp.s
+.PHONY : core/filesystem/ext2_reader.cpp.s
+
+core/filesystem/ext2_writer.o: core/filesystem/ext2_writer.cpp.o
+.PHONY : core/filesystem/ext2_writer.o
+
+# target to build an object file
+core/filesystem/ext2_writer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.o
+.PHONY : core/filesystem/ext2_writer.cpp.o
+
+core/filesystem/ext2_writer.i: core/filesystem/ext2_writer.cpp.i
+.PHONY : core/filesystem/ext2_writer.i
+
+# target to preprocess a source file
+core/filesystem/ext2_writer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.i
+.PHONY : core/filesystem/ext2_writer.cpp.i
+
+core/filesystem/ext2_writer.s: core/filesystem/ext2_writer.cpp.s
+.PHONY : core/filesystem/ext2_writer.s
+
+# target to generate assembly for a file
+core/filesystem/ext2_writer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.s
+.PHONY : core/filesystem/ext2_writer.cpp.s
+
 core/mount/mount_manager.o: core/mount/mount_manager.cpp.o
 .PHONY : core/mount/mount_manager.o
 
@@ -248,6 +368,30 @@ core/mount/mount_manager.s: core/mount/mount_manager.cpp.s
 core/mount/mount_manager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.s
 .PHONY : core/mount/mount_manager.cpp.s
+
+core/utils/parser.o: core/utils/parser.cpp.o
+.PHONY : core/utils/parser.o
+
+# target to build an object file
+core/utils/parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o
+.PHONY : core/utils/parser.cpp.o
+
+core/utils/parser.i: core/utils/parser.cpp.i
+.PHONY : core/utils/parser.i
+
+# target to preprocess a source file
+core/utils/parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/utils/parser.cpp.i
+.PHONY : core/utils/parser.cpp.i
+
+core/utils/parser.s: core/utils/parser.cpp.s
+.PHONY : core/utils/parser.s
+
+# target to generate assembly for a file
+core/utils/parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/utils/parser.cpp.s
+.PHONY : core/utils/parser.cpp.s
 
 include/main.o: include/main.cpp.o
 .PHONY : include/main.o
@@ -288,15 +432,33 @@ help:
 	@echo "... core/commands/mkdisk.o"
 	@echo "... core/commands/mkdisk.i"
 	@echo "... core/commands/mkdisk.s"
+	@echo "... core/commands/mkfs.o"
+	@echo "... core/commands/mkfs.i"
+	@echo "... core/commands/mkfs.s"
 	@echo "... core/commands/mount.o"
 	@echo "... core/commands/mount.i"
 	@echo "... core/commands/mount.s"
 	@echo "... core/commands/rmdisk.o"
 	@echo "... core/commands/rmdisk.i"
 	@echo "... core/commands/rmdisk.s"
+	@echo "... core/disk/disk_creator.o"
+	@echo "... core/disk/disk_creator.i"
+	@echo "... core/disk/disk_creator.s"
+	@echo "... core/filesystem/SuperBlock.o"
+	@echo "... core/filesystem/SuperBlock.i"
+	@echo "... core/filesystem/SuperBlock.s"
+	@echo "... core/filesystem/ext2_reader.o"
+	@echo "... core/filesystem/ext2_reader.i"
+	@echo "... core/filesystem/ext2_reader.s"
+	@echo "... core/filesystem/ext2_writer.o"
+	@echo "... core/filesystem/ext2_writer.i"
+	@echo "... core/filesystem/ext2_writer.s"
 	@echo "... core/mount/mount_manager.o"
 	@echo "... core/mount/mount_manager.i"
 	@echo "... core/mount/mount_manager.s"
+	@echo "... core/utils/parser.o"
+	@echo "... core/utils/parser.i"
+	@echo "... core/utils/parser.s"
 	@echo "... include/main.o"
 	@echo "... include/main.i"
 	@echo "... include/main.s"

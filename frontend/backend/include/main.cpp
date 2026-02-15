@@ -4,10 +4,13 @@
 #include <cstdlib>
 #include <ctime>
 #include "mount/mount_manager.h"
+
 #include "commands/mkdisk.h"
 #include "commands/fdisk.h"
 #include "commands/rmdisk.h"
 #include "commands/mount.h"
+#include "commands/mkfs.h"
+
 #include <algorithm>
 
 std::vector<std::string> split(std::string input) {
@@ -222,6 +225,42 @@ else if (command == "fdisk") {
             Mount m;
             m.execute(path, name);
         }
+        // ================== MKFS ==================
+else if (command == "mkfs") {
+
+    std::string id = "";
+    std::string type = "full"; // default
+
+    for (int i = 1; i < args.size(); i++) {
+
+        std::string param = args[i];
+        std::string lower = param;
+        std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+        if (lower.find("-id=") == 0) {
+            id = param.substr(4);
+        }
+        else if (lower.find("-type=") == 0) {
+            type = lower.substr(6);
+        }
+    }
+
+    // ===== VALIDACIONES =====
+
+    if (id.empty()) {
+        std::cout << "ERROR: El parámetro -id es obligatorio\n";
+        continue;
+    }
+
+    if (type != "full") {
+        std::cout << "ERROR: Solo se permite -type=full\n";
+        continue;
+    }
+
+    Mkfs mkfs;
+    mkfs.execute(id);
+}
+
 
 
         else {
