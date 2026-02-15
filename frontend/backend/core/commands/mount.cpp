@@ -3,14 +3,36 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
+#include <cctype>         
 #include "../disk/mbr.h"
 
+// 🔹 Función para limpiar el path
+std::string cleanPath(std::string path) {
+
+    while (!path.empty() && isspace(path.front()))
+        path.erase(path.begin());
+
+    while (!path.empty() && isspace(path.back()))
+        path.pop_back();
+
+    if (!path.empty() && path.front() == '"')
+        path.erase(0, 1);
+
+    if (!path.empty() && path.back() == '"')
+        path.pop_back();
+
+    return path;
+}
+
 void Mount::execute(std::string path, std::string name) {
+
+    path = cleanPath(path);
 
     FILE* file = fopen(path.c_str(), "rb");
 
     if (!file) {
         std::cout << "ERROR: El disco no existe\n";
+        std::cout << "Path recibido: [" << path << "]\n";
         return;
     }
 
@@ -40,8 +62,13 @@ void Mount::execute(std::string path, std::string name) {
 
     std::string id = MountManager::mount(path, name);
 
-    std::cout << "Partición montada correctamente\n";
-    std::cout << "ID asignado: " << id << "\n";
+        if (id.empty()) {
+            return;  
+        }
 
-    MountManager::showMounted();
+        std::cout << "Partición montada correctamente\n";
+        std::cout << "ID asignado: " << id << "\n";
+
+        MountManager::showMounted();
+
 }

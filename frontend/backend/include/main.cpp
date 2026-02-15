@@ -8,6 +8,7 @@
 #include "commands/fdisk.h"
 #include "commands/rmdisk.h"
 #include "commands/mount.h"
+#include <algorithm>
 
 std::vector<std::string> split(std::string input) {
     std::stringstream ss(input);
@@ -47,75 +48,181 @@ int main() {
         std::string command = args[0];
 
         // ================== MKDISK ==================
-        if (command == "mkdisk") {
+if (command == "mkdisk") {
 
-            if (args.size() != 5) {
-                std::cout << "Uso: mkdisk <size> <unit> <fit> <path>\n";
-                continue;
-            }
+    int size = -1;
+    char unit = 'M';          // default
+    std::string fit = "FF";   // default
+    std::string path = "";
 
-            int size = std::stoi(args[1]);
-            char unit = args[2][0];
-            std::string fit = args[3];
-            std::string path = args[4];
+    for (int i = 1; i < args.size(); i++) {
 
-            MkDisk mk;
-            mk.execute(size, unit, fit, path);
+        std::string param = args[i];
+
+        // Convertir a minúsculas para comparar
+        std::string lower = param;
+        std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+        if (lower.find("-size=") == 0) {
+            size = std::stoi(param.substr(6));
         }
-
-        // ================== FDISK ==================
-        else if (command == "fdisk") {
-
-            if (args.size() != 7) {
-                std::cout << "Uso: fdisk <size> <unit> <path> <type> <fit> <name>\n";
-                continue;
-            }
-
-            int size = std::stoi(args[1]);
-            char unit = args[2][0];
-            std::string path = args[3];
-            char type = args[4][0];
-            std::string fit = args[5];
-            std::string name = args[6];
-
-            FDisk fd;
-            fd.execute(size, unit, path, type, fit, name);
+        else if (lower.find("-unit=") == 0) {
+            unit = toupper(param.substr(6)[0]);
         }
+        else if (lower.find("-fit=") == 0) {
+            fit = param.substr(5);
+            std::transform(fit.begin(), fit.end(), fit.begin(), ::toupper);
+        }
+        else if (lower.find("-path=") == 0) {
+            path = param.substr(6);
+        }
+    }
+
+    // ===== VALIDACIONES =====
+
+    if (size <= 0) {
+        std::cout << "ERROR: size debe ser mayor a 0\n";
+        continue;
+    }
+
+    if (unit != 'K' && unit != 'M') {
+        std::cout << "ERROR: unit debe ser K o M\n";
+        continue;
+    }
+
+    if (fit != "BF" && fit != "FF" && fit != "WF") {
+        std::cout << "ERROR: fit debe ser BF, FF o WF\n";
+        continue;
+    }
+
+    if (path.empty()) {
+        std::cout << "ERROR: path es obligatorio\n";
+        continue;
+    }
+
+    MkDisk mk;
+    mk.execute(size, unit, fit, path);
+}
+
+
+      // ================== FDISK ==================
+else if (command == "fdisk") {
+
+    int size = -1;
+    char unit = 'K';            // Default según enunciado
+    std::string path = "";
+    char type = 'P';            // Default primaria
+    std::string fit = "WF";     // Default peor ajuste
+    std::string name = "";
+
+    for (int i = 1; i < args.size(); i++) {
+
+        std::string param = args[i];
+        std::string lower = param;
+        std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+        if (lower.find("-size=") == 0) {
+            size = std::stoi(param.substr(6));
+        }
+        else if (lower.find("-unit=") == 0) {
+            unit = toupper(param.substr(6)[0]);
+        }
+        else if (lower.find("-path=") == 0) {
+            path = param.substr(6);
+        }
+        else if (lower.find("-type=") == 0) {
+            type = toupper(param.substr(6)[0]);
+        }
+        else if (lower.find("-fit=") == 0) {
+            fit = param.substr(5);
+            std::transform(fit.begin(), fit.end(), fit.begin(), ::toupper);
+        }
+        else if (lower.find("-name=") == 0) {
+            name = param.substr(6);
+        }
+    }
+
+    // ===== VALIDACIONES MÍNIMAS DE ESTRUCTURA =====
+
+    if (size <= 0) {
+        std::cout << "ERROR: El parámetro -size es obligatorio y debe ser mayor a 0\n";
+        continue;
+    }
+
+    if (path.empty()) {
+        std::cout << "ERROR: El parámetro -path es obligatorio\n";
+        continue;
+    }
+
+    if (name.empty()) {
+        std::cout << "ERROR: El parámetro -name es obligatorio\n";
+        continue;
+    }
+
+    // El resto de validaciones las hace fdisk.cpp
+
+    FDisk fd;
+    fd.execute(size, unit, path, type, fit, name);
+}
+
 
         // ================== RMDISK ==================
         else if (command == "rmdisk") {
 
-            if (args.size() != 2) {
-                std::cout << "Uso: rmdisk <path>\n";
-                continue;
+            std::string path = "";
+
+            for (int i = 1; i < args.size(); i++) {
+
+                std::string param = args[i];
+                std::string lower = param;
+                std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+                if (lower.find("-path=") == 0) {
+                    path = param.substr(6);
+                }
             }
 
-            std::string path = args[1];
+            // ===== VALIDACIONES =====
+            if (path.empty()) {
+                std::cout << "ERROR: El parámetro -path es obligatorio\n";
+                continue;
+            }
 
             RmDisk rm;
             rm.execute(path);
         }
 
+
         // ================== MOUNT ==================
-        else if (command == "mount") {
+                else if (command == "mount") {
 
             if (args.size() == 1) {
-                // Solo listar montadas
                 MountManager::showMounted();
                 continue;
             }
 
-            if (args.size() != 3) {
-                std::cout << "Uso: mount <path> <name>\n";
-                continue;
+            std::string path = "";
+            std::string name = "";
+
+            for (int i = 1; i < args.size(); i++) {
+
+                if (args[i].find("-path=") == 0) {
+                    path = args[i].substr(6);
+                }
+                else if (args[i].find("-name=") == 0) {
+                    name = args[i].substr(6);
+                }
             }
 
-            std::string path = args[1];
-            std::string name = args[2];
+            if (path.empty() || name.empty()) {
+                std::cout << "Uso: mount -path=<ruta> -name=<nombre>\n";
+                continue;
+            }
 
             Mount m;
             m.execute(path, name);
         }
+
 
         else {
             std::cout << "Comando no reconocido\n";

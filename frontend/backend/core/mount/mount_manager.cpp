@@ -6,37 +6,59 @@ std::vector<MountedPartition> MountManager::mountedPartitions;
 // ================== MOUNT ==================
 std::string MountManager::mount(std::string path, std::string name) {
 
-    std::string carnet = "49";  // últimos 2 dígitos
+    // 🔒 VALIDAR DOBLE MOUNT
+    for (auto &m : mountedPartitions) {
+        if (m.path == path && m.name == name) {
+            std::cout << "ERROR: La partición ya está montada\n";
+            return "";   // ← si ya existe, no seguimos
+        }
+    }
+
+    std::string carnet = "49";
+
     char letter = 'A';
     int number = 1;
 
-    // 🔎 Buscar si el disco ya fue montado antes
     bool diskExists = false;
-    char diskLetter = 'A';
 
+    // 🔎 Verificar si el disco ya tiene letra asignada
     for (auto &m : mountedPartitions) {
         if (m.path == path) {
             diskExists = true;
-            diskLetter = m.id.back();
+            letter = m.id.back();  // misma letra del disco
             break;
         }
     }
 
     if (diskExists) {
-        letter = diskLetter;
 
-        // contar cuántas particiones de ese disco ya están montadas
+        // 📌 Contar particiones ya montadas del mismo disco
+        int count = 0;
         for (auto &m : mountedPartitions) {
             if (m.path == path) {
-                number++;
+                count++;
             }
         }
+
+        number = count + 1;
+
     } else {
-        // nuevo disco → buscar siguiente letra disponible
-        if (!mountedPartitions.empty()) {
-            char lastLetter = mountedPartitions.back().id.back();
-            letter = lastLetter + 1;
+
+        // 📌 Buscar la letra más alta usada
+        char maxLetter = 'A' - 1;
+
+        for (auto &m : mountedPartitions) {
+            char currentLetter = m.id.back();
+            if (currentLetter > maxLetter) {
+                maxLetter = currentLetter;
+            }
         }
+
+        if (maxLetter >= 'A')
+            letter = maxLetter + 1;
+        else
+            letter = 'A';
+
         number = 1;
     }
 
@@ -51,6 +73,7 @@ std::string MountManager::mount(std::string path, std::string name) {
 
     return newId;
 }
+
 
 // ================== SHOW MOUNTED ==================
 void MountManager::showMounted() {
