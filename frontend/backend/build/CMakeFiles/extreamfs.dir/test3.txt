@@ -1,0 +1,10 @@
+mkdisk -size=3 -unit=M -path=/home/mariano/Discos/disco1.mia
+fdisk -size=2 -unit=M -path=/home/mariano/Discos/disco1.mia -type=P -name=part1
+mount -path=/home/mariano/Discos/disco1.mia -name=part1
+mkfs -id=491A -type=full
+login -user=root -pass=123 -id=491A
+login -user=root -pass=123 -id=491A
+logout
+logout
+login -user=root -pass=wrongpass -id=491A
+login -user=noexiste -pass=123 -id=491A

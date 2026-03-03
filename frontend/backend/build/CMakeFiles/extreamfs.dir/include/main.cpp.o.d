@@ -157,6 +157,17 @@ CMakeFiles/extreamfs.dir/include/main.cpp.o: \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmdisk.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mount.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkfs.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/login.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/logout.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkgrp.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmgrp.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkusr.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rmusr.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/chgrp.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkdir_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/mkfile_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/cat_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/rep_cmd.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/utility \
  /usr/include/c++/11/bits/stl_relops.h \
  /usr/include/c++/11/bits/stl_algo.h \

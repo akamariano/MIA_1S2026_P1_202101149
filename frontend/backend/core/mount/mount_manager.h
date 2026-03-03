@@ -8,8 +8,8 @@ struct MountedPartition {
     std::string path;
     std::string name;
     std::string id;
-    int start;
-    int size;
+    long long start;  
+    long long size;
 };
 
 class MountManager {
@@ -19,9 +19,8 @@ private:
 public:
     static std::string mount(std::string path, std::string name);
     static void showMounted();
-
-    // 🔥 AGREGAR ESTA LÍNEA
     static MountedPartition* getMountedById(std::string id);
+    static void unmountByPath(std::string path);  // ✅ agregado
 };
 
 #endif

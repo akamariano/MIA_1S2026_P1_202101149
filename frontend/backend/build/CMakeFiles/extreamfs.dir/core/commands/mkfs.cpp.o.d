@@ -177,4 +177,5 @@ CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.o: \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../mount/mount_manager.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/SuperBlock.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/Inode.h \
- /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/Blocks.h
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/Blocks.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/ext2_writer.h

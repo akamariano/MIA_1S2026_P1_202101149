@@ -6,7 +6,10 @@
 #include <cctype>         
 #include "../disk/mbr.h"
 
-// 🔹 Función para limpiar el path
+/**
+ * Función para limpiar el path.
+ * Normaliza separadores y elimina caracteres innecesarios.
+ */
 std::string cleanPath(std::string path) {
 
     while (!path.empty() && isspace(path.front()))
@@ -23,13 +26,11 @@ std::string cleanPath(std::string path) {
 
     return path;
 }
-
 void Mount::execute(std::string path, std::string name) {
 
     path = cleanPath(path);
 
     FILE* file = fopen(path.c_str(), "rb");
-
     if (!file) {
         std::cout << "ERROR: El disco no existe\n";
         std::cout << "Path recibido: [" << path << "]\n";
@@ -38,37 +39,30 @@ void Mount::execute(std::string path, std::string name) {
 
     MBR mbr;
     fread(&mbr, sizeof(MBR), 1, file);
+    fclose(file);
 
     bool found = false;
 
+    // Solo particiones PRIMARIAS pueden montarse
     for (int i = 0; i < 4; i++) {
         if (mbr.mbr_partitions[i].part_status == '1' &&
             mbr.mbr_partitions[i].part_type == 'P') {
-
-            if (strncmp(mbr.mbr_partitions[i].part_name,
-                        name.c_str(), 16) == 0) {
+            if (strncmp(mbr.mbr_partitions[i].part_name, name.c_str(), 16) == 0) {
                 found = true;
                 break;
             }
         }
     }
 
-    fclose(file);
-
     if (!found) {
-        std::cout << "ERROR: Partición no encontrada\n";
+        std::cout << "ERROR: Partición primaria '" << name << "' no encontrada\n";
         return;
     }
 
     std::string id = MountManager::mount(path, name);
+    if (id.empty()) return;
 
-        if (id.empty()) {
-            return;  
-        }
-
-        std::cout << "Partición montada correctamente\n";
-        std::cout << "ID asignado: " << id << "\n";
-
-        MountManager::showMounted();
-
+    std::cout << "OK: Partición montada correctamente\n";
+    std::cout << "ID asignado: " << id << "\n";
+    MountManager::showMounted();
 }

@@ -129,6 +129,54 @@ extreamfs/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/build
 .PHONY : extreamfs/fast
 
+core/commands/cat_cmd.o: core/commands/cat_cmd.cpp.o
+.PHONY : core/commands/cat_cmd.o
+
+# target to build an object file
+core/commands/cat_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/cat_cmd.cpp.o
+.PHONY : core/commands/cat_cmd.cpp.o
+
+core/commands/cat_cmd.i: core/commands/cat_cmd.cpp.i
+.PHONY : core/commands/cat_cmd.i
+
+# target to preprocess a source file
+core/commands/cat_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/cat_cmd.cpp.i
+.PHONY : core/commands/cat_cmd.cpp.i
+
+core/commands/cat_cmd.s: core/commands/cat_cmd.cpp.s
+.PHONY : core/commands/cat_cmd.s
+
+# target to generate assembly for a file
+core/commands/cat_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/cat_cmd.cpp.s
+.PHONY : core/commands/cat_cmd.cpp.s
+
+core/commands/chgrp.o: core/commands/chgrp.cpp.o
+.PHONY : core/commands/chgrp.o
+
+# target to build an object file
+core/commands/chgrp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chgrp.cpp.o
+.PHONY : core/commands/chgrp.cpp.o
+
+core/commands/chgrp.i: core/commands/chgrp.cpp.i
+.PHONY : core/commands/chgrp.i
+
+# target to preprocess a source file
+core/commands/chgrp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chgrp.cpp.i
+.PHONY : core/commands/chgrp.cpp.i
+
+core/commands/chgrp.s: core/commands/chgrp.cpp.s
+.PHONY : core/commands/chgrp.s
+
+# target to generate assembly for a file
+core/commands/chgrp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chgrp.cpp.s
+.PHONY : core/commands/chgrp.cpp.s
+
 core/commands/fdisk.o: core/commands/fdisk.cpp.o
 .PHONY : core/commands/fdisk.o
 
@@ -152,6 +200,30 @@ core/commands/fdisk.s: core/commands/fdisk.cpp.s
 core/commands/fdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.s
 .PHONY : core/commands/fdisk.cpp.s
+
+core/commands/mkdir_cmd.o: core/commands/mkdir_cmd.cpp.o
+.PHONY : core/commands/mkdir_cmd.o
+
+# target to build an object file
+core/commands/mkdir_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdir_cmd.cpp.o
+.PHONY : core/commands/mkdir_cmd.cpp.o
+
+core/commands/mkdir_cmd.i: core/commands/mkdir_cmd.cpp.i
+.PHONY : core/commands/mkdir_cmd.i
+
+# target to preprocess a source file
+core/commands/mkdir_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdir_cmd.cpp.i
+.PHONY : core/commands/mkdir_cmd.cpp.i
+
+core/commands/mkdir_cmd.s: core/commands/mkdir_cmd.cpp.s
+.PHONY : core/commands/mkdir_cmd.s
+
+# target to generate assembly for a file
+core/commands/mkdir_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdir_cmd.cpp.s
+.PHONY : core/commands/mkdir_cmd.cpp.s
 
 core/commands/mkdisk.o: core/commands/mkdisk.cpp.o
 .PHONY : core/commands/mkdisk.o
@@ -177,6 +249,30 @@ core/commands/mkdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkdisk.cpp.s
 .PHONY : core/commands/mkdisk.cpp.s
 
+core/commands/mkfile_cmd.o: core/commands/mkfile_cmd.cpp.o
+.PHONY : core/commands/mkfile_cmd.o
+
+# target to build an object file
+core/commands/mkfile_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfile_cmd.cpp.o
+.PHONY : core/commands/mkfile_cmd.cpp.o
+
+core/commands/mkfile_cmd.i: core/commands/mkfile_cmd.cpp.i
+.PHONY : core/commands/mkfile_cmd.i
+
+# target to preprocess a source file
+core/commands/mkfile_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfile_cmd.cpp.i
+.PHONY : core/commands/mkfile_cmd.cpp.i
+
+core/commands/mkfile_cmd.s: core/commands/mkfile_cmd.cpp.s
+.PHONY : core/commands/mkfile_cmd.s
+
+# target to generate assembly for a file
+core/commands/mkfile_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfile_cmd.cpp.s
+.PHONY : core/commands/mkfile_cmd.cpp.s
+
 core/commands/mkfs.o: core/commands/mkfs.cpp.o
 .PHONY : core/commands/mkfs.o
 
@@ -200,6 +296,54 @@ core/commands/mkfs.s: core/commands/mkfs.cpp.s
 core/commands/mkfs.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkfs.cpp.s
 .PHONY : core/commands/mkfs.cpp.s
+
+core/commands/mkgrp.o: core/commands/mkgrp.cpp.o
+.PHONY : core/commands/mkgrp.o
+
+# target to build an object file
+core/commands/mkgrp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkgrp.cpp.o
+.PHONY : core/commands/mkgrp.cpp.o
+
+core/commands/mkgrp.i: core/commands/mkgrp.cpp.i
+.PHONY : core/commands/mkgrp.i
+
+# target to preprocess a source file
+core/commands/mkgrp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkgrp.cpp.i
+.PHONY : core/commands/mkgrp.cpp.i
+
+core/commands/mkgrp.s: core/commands/mkgrp.cpp.s
+.PHONY : core/commands/mkgrp.s
+
+# target to generate assembly for a file
+core/commands/mkgrp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkgrp.cpp.s
+.PHONY : core/commands/mkgrp.cpp.s
+
+core/commands/mkusr.o: core/commands/mkusr.cpp.o
+.PHONY : core/commands/mkusr.o
+
+# target to build an object file
+core/commands/mkusr.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkusr.cpp.o
+.PHONY : core/commands/mkusr.cpp.o
+
+core/commands/mkusr.i: core/commands/mkusr.cpp.i
+.PHONY : core/commands/mkusr.i
+
+# target to preprocess a source file
+core/commands/mkusr.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkusr.cpp.i
+.PHONY : core/commands/mkusr.cpp.i
+
+core/commands/mkusr.s: core/commands/mkusr.cpp.s
+.PHONY : core/commands/mkusr.s
+
+# target to generate assembly for a file
+core/commands/mkusr.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mkusr.cpp.s
+.PHONY : core/commands/mkusr.cpp.s
 
 core/commands/mount.o: core/commands/mount.cpp.o
 .PHONY : core/commands/mount.o
@@ -225,6 +369,30 @@ core/commands/mount.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mount.cpp.s
 .PHONY : core/commands/mount.cpp.s
 
+core/commands/rep_cmd.o: core/commands/rep_cmd.cpp.o
+.PHONY : core/commands/rep_cmd.o
+
+# target to build an object file
+core/commands/rep_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rep_cmd.cpp.o
+.PHONY : core/commands/rep_cmd.cpp.o
+
+core/commands/rep_cmd.i: core/commands/rep_cmd.cpp.i
+.PHONY : core/commands/rep_cmd.i
+
+# target to preprocess a source file
+core/commands/rep_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rep_cmd.cpp.i
+.PHONY : core/commands/rep_cmd.cpp.i
+
+core/commands/rep_cmd.s: core/commands/rep_cmd.cpp.s
+.PHONY : core/commands/rep_cmd.s
+
+# target to generate assembly for a file
+core/commands/rep_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rep_cmd.cpp.s
+.PHONY : core/commands/rep_cmd.cpp.s
+
 core/commands/rmdisk.o: core/commands/rmdisk.cpp.o
 .PHONY : core/commands/rmdisk.o
 
@@ -249,6 +417,54 @@ core/commands/rmdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmdisk.cpp.s
 .PHONY : core/commands/rmdisk.cpp.s
 
+core/commands/rmgrp.o: core/commands/rmgrp.cpp.o
+.PHONY : core/commands/rmgrp.o
+
+# target to build an object file
+core/commands/rmgrp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmgrp.cpp.o
+.PHONY : core/commands/rmgrp.cpp.o
+
+core/commands/rmgrp.i: core/commands/rmgrp.cpp.i
+.PHONY : core/commands/rmgrp.i
+
+# target to preprocess a source file
+core/commands/rmgrp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmgrp.cpp.i
+.PHONY : core/commands/rmgrp.cpp.i
+
+core/commands/rmgrp.s: core/commands/rmgrp.cpp.s
+.PHONY : core/commands/rmgrp.s
+
+# target to generate assembly for a file
+core/commands/rmgrp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmgrp.cpp.s
+.PHONY : core/commands/rmgrp.cpp.s
+
+core/commands/rmusr.o: core/commands/rmusr.cpp.o
+.PHONY : core/commands/rmusr.o
+
+# target to build an object file
+core/commands/rmusr.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmusr.cpp.o
+.PHONY : core/commands/rmusr.cpp.o
+
+core/commands/rmusr.i: core/commands/rmusr.cpp.i
+.PHONY : core/commands/rmusr.i
+
+# target to preprocess a source file
+core/commands/rmusr.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmusr.cpp.i
+.PHONY : core/commands/rmusr.cpp.i
+
+core/commands/rmusr.s: core/commands/rmusr.cpp.s
+.PHONY : core/commands/rmusr.s
+
+# target to generate assembly for a file
+core/commands/rmusr.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rmusr.cpp.s
+.PHONY : core/commands/rmusr.cpp.s
+
 core/disk/disk_creator.o: core/disk/disk_creator.cpp.o
 .PHONY : core/disk/disk_creator.o
 
@@ -272,30 +488,6 @@ core/disk/disk_creator.s: core/disk/disk_creator.cpp.s
 core/disk/disk_creator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/disk/disk_creator.cpp.s
 .PHONY : core/disk/disk_creator.cpp.s
-
-core/filesystem/SuperBlock.o: core/filesystem/SuperBlock.cpp.o
-.PHONY : core/filesystem/SuperBlock.o
-
-# target to build an object file
-core/filesystem/SuperBlock.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.o
-.PHONY : core/filesystem/SuperBlock.cpp.o
-
-core/filesystem/SuperBlock.i: core/filesystem/SuperBlock.cpp.i
-.PHONY : core/filesystem/SuperBlock.i
-
-# target to preprocess a source file
-core/filesystem/SuperBlock.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.i
-.PHONY : core/filesystem/SuperBlock.cpp.i
-
-core/filesystem/SuperBlock.s: core/filesystem/SuperBlock.cpp.s
-.PHONY : core/filesystem/SuperBlock.s
-
-# target to generate assembly for a file
-core/filesystem/SuperBlock.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/SuperBlock.cpp.s
-.PHONY : core/filesystem/SuperBlock.cpp.s
 
 core/filesystem/ext2_reader.o: core/filesystem/ext2_reader.cpp.o
 .PHONY : core/filesystem/ext2_reader.o
@@ -345,6 +537,78 @@ core/filesystem/ext2_writer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.s
 .PHONY : core/filesystem/ext2_writer.cpp.s
 
+core/filesystem/login.o: core/filesystem/login.cpp.o
+.PHONY : core/filesystem/login.o
+
+# target to build an object file
+core/filesystem/login.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/login.cpp.o
+.PHONY : core/filesystem/login.cpp.o
+
+core/filesystem/login.i: core/filesystem/login.cpp.i
+.PHONY : core/filesystem/login.i
+
+# target to preprocess a source file
+core/filesystem/login.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/login.cpp.i
+.PHONY : core/filesystem/login.cpp.i
+
+core/filesystem/login.s: core/filesystem/login.cpp.s
+.PHONY : core/filesystem/login.s
+
+# target to generate assembly for a file
+core/filesystem/login.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/login.cpp.s
+.PHONY : core/filesystem/login.cpp.s
+
+core/filesystem/logout.o: core/filesystem/logout.cpp.o
+.PHONY : core/filesystem/logout.o
+
+# target to build an object file
+core/filesystem/logout.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/logout.cpp.o
+.PHONY : core/filesystem/logout.cpp.o
+
+core/filesystem/logout.i: core/filesystem/logout.cpp.i
+.PHONY : core/filesystem/logout.i
+
+# target to preprocess a source file
+core/filesystem/logout.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/logout.cpp.i
+.PHONY : core/filesystem/logout.cpp.i
+
+core/filesystem/logout.s: core/filesystem/logout.cpp.s
+.PHONY : core/filesystem/logout.s
+
+# target to generate assembly for a file
+core/filesystem/logout.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/logout.cpp.s
+.PHONY : core/filesystem/logout.cpp.s
+
+core/filesystem/session_manager.o: core/filesystem/session_manager.cpp.o
+.PHONY : core/filesystem/session_manager.o
+
+# target to build an object file
+core/filesystem/session_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/session_manager.cpp.o
+.PHONY : core/filesystem/session_manager.cpp.o
+
+core/filesystem/session_manager.i: core/filesystem/session_manager.cpp.i
+.PHONY : core/filesystem/session_manager.i
+
+# target to preprocess a source file
+core/filesystem/session_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/session_manager.cpp.i
+.PHONY : core/filesystem/session_manager.cpp.i
+
+core/filesystem/session_manager.s: core/filesystem/session_manager.cpp.s
+.PHONY : core/filesystem/session_manager.s
+
+# target to generate assembly for a file
+core/filesystem/session_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/filesystem/session_manager.cpp.s
+.PHONY : core/filesystem/session_manager.cpp.s
+
 core/mount/mount_manager.o: core/mount/mount_manager.cpp.o
 .PHONY : core/mount/mount_manager.o
 
@@ -368,6 +632,222 @@ core/mount/mount_manager.s: core/mount/mount_manager.cpp.s
 core/mount/mount_manager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/mount/mount_manager.cpp.s
 .PHONY : core/mount/mount_manager.cpp.s
+
+core/reports/report_block.o: core/reports/report_block.cpp.o
+.PHONY : core/reports/report_block.o
+
+# target to build an object file
+core/reports/report_block.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_block.cpp.o
+.PHONY : core/reports/report_block.cpp.o
+
+core/reports/report_block.i: core/reports/report_block.cpp.i
+.PHONY : core/reports/report_block.i
+
+# target to preprocess a source file
+core/reports/report_block.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_block.cpp.i
+.PHONY : core/reports/report_block.cpp.i
+
+core/reports/report_block.s: core/reports/report_block.cpp.s
+.PHONY : core/reports/report_block.s
+
+# target to generate assembly for a file
+core/reports/report_block.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_block.cpp.s
+.PHONY : core/reports/report_block.cpp.s
+
+core/reports/report_bm.o: core/reports/report_bm.cpp.o
+.PHONY : core/reports/report_bm.o
+
+# target to build an object file
+core/reports/report_bm.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_bm.cpp.o
+.PHONY : core/reports/report_bm.cpp.o
+
+core/reports/report_bm.i: core/reports/report_bm.cpp.i
+.PHONY : core/reports/report_bm.i
+
+# target to preprocess a source file
+core/reports/report_bm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_bm.cpp.i
+.PHONY : core/reports/report_bm.cpp.i
+
+core/reports/report_bm.s: core/reports/report_bm.cpp.s
+.PHONY : core/reports/report_bm.s
+
+# target to generate assembly for a file
+core/reports/report_bm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_bm.cpp.s
+.PHONY : core/reports/report_bm.cpp.s
+
+core/reports/report_disk.o: core/reports/report_disk.cpp.o
+.PHONY : core/reports/report_disk.o
+
+# target to build an object file
+core/reports/report_disk.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_disk.cpp.o
+.PHONY : core/reports/report_disk.cpp.o
+
+core/reports/report_disk.i: core/reports/report_disk.cpp.i
+.PHONY : core/reports/report_disk.i
+
+# target to preprocess a source file
+core/reports/report_disk.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_disk.cpp.i
+.PHONY : core/reports/report_disk.cpp.i
+
+core/reports/report_disk.s: core/reports/report_disk.cpp.s
+.PHONY : core/reports/report_disk.s
+
+# target to generate assembly for a file
+core/reports/report_disk.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_disk.cpp.s
+.PHONY : core/reports/report_disk.cpp.s
+
+core/reports/report_file.o: core/reports/report_file.cpp.o
+.PHONY : core/reports/report_file.o
+
+# target to build an object file
+core/reports/report_file.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_file.cpp.o
+.PHONY : core/reports/report_file.cpp.o
+
+core/reports/report_file.i: core/reports/report_file.cpp.i
+.PHONY : core/reports/report_file.i
+
+# target to preprocess a source file
+core/reports/report_file.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_file.cpp.i
+.PHONY : core/reports/report_file.cpp.i
+
+core/reports/report_file.s: core/reports/report_file.cpp.s
+.PHONY : core/reports/report_file.s
+
+# target to generate assembly for a file
+core/reports/report_file.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_file.cpp.s
+.PHONY : core/reports/report_file.cpp.s
+
+core/reports/report_inode.o: core/reports/report_inode.cpp.o
+.PHONY : core/reports/report_inode.o
+
+# target to build an object file
+core/reports/report_inode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_inode.cpp.o
+.PHONY : core/reports/report_inode.cpp.o
+
+core/reports/report_inode.i: core/reports/report_inode.cpp.i
+.PHONY : core/reports/report_inode.i
+
+# target to preprocess a source file
+core/reports/report_inode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_inode.cpp.i
+.PHONY : core/reports/report_inode.cpp.i
+
+core/reports/report_inode.s: core/reports/report_inode.cpp.s
+.PHONY : core/reports/report_inode.s
+
+# target to generate assembly for a file
+core/reports/report_inode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_inode.cpp.s
+.PHONY : core/reports/report_inode.cpp.s
+
+core/reports/report_ls.o: core/reports/report_ls.cpp.o
+.PHONY : core/reports/report_ls.o
+
+# target to build an object file
+core/reports/report_ls.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_ls.cpp.o
+.PHONY : core/reports/report_ls.cpp.o
+
+core/reports/report_ls.i: core/reports/report_ls.cpp.i
+.PHONY : core/reports/report_ls.i
+
+# target to preprocess a source file
+core/reports/report_ls.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_ls.cpp.i
+.PHONY : core/reports/report_ls.cpp.i
+
+core/reports/report_ls.s: core/reports/report_ls.cpp.s
+.PHONY : core/reports/report_ls.s
+
+# target to generate assembly for a file
+core/reports/report_ls.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_ls.cpp.s
+.PHONY : core/reports/report_ls.cpp.s
+
+core/reports/report_mbr.o: core/reports/report_mbr.cpp.o
+.PHONY : core/reports/report_mbr.o
+
+# target to build an object file
+core/reports/report_mbr.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_mbr.cpp.o
+.PHONY : core/reports/report_mbr.cpp.o
+
+core/reports/report_mbr.i: core/reports/report_mbr.cpp.i
+.PHONY : core/reports/report_mbr.i
+
+# target to preprocess a source file
+core/reports/report_mbr.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_mbr.cpp.i
+.PHONY : core/reports/report_mbr.cpp.i
+
+core/reports/report_mbr.s: core/reports/report_mbr.cpp.s
+.PHONY : core/reports/report_mbr.s
+
+# target to generate assembly for a file
+core/reports/report_mbr.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_mbr.cpp.s
+.PHONY : core/reports/report_mbr.cpp.s
+
+core/reports/report_sb.o: core/reports/report_sb.cpp.o
+.PHONY : core/reports/report_sb.o
+
+# target to build an object file
+core/reports/report_sb.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_sb.cpp.o
+.PHONY : core/reports/report_sb.cpp.o
+
+core/reports/report_sb.i: core/reports/report_sb.cpp.i
+.PHONY : core/reports/report_sb.i
+
+# target to preprocess a source file
+core/reports/report_sb.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_sb.cpp.i
+.PHONY : core/reports/report_sb.cpp.i
+
+core/reports/report_sb.s: core/reports/report_sb.cpp.s
+.PHONY : core/reports/report_sb.s
+
+# target to generate assembly for a file
+core/reports/report_sb.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_sb.cpp.s
+.PHONY : core/reports/report_sb.cpp.s
+
+core/reports/report_tree.o: core/reports/report_tree.cpp.o
+.PHONY : core/reports/report_tree.o
+
+# target to build an object file
+core/reports/report_tree.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.o
+.PHONY : core/reports/report_tree.cpp.o
+
+core/reports/report_tree.i: core/reports/report_tree.cpp.i
+.PHONY : core/reports/report_tree.i
+
+# target to preprocess a source file
+core/reports/report_tree.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.i
+.PHONY : core/reports/report_tree.cpp.i
+
+core/reports/report_tree.s: core/reports/report_tree.cpp.s
+.PHONY : core/reports/report_tree.s
+
+# target to generate assembly for a file
+core/reports/report_tree.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.s
+.PHONY : core/reports/report_tree.cpp.s
 
 core/utils/parser.o: core/utils/parser.cpp.o
 .PHONY : core/utils/parser.o
@@ -426,36 +906,96 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... extreamfs"
+	@echo "... core/commands/cat_cmd.o"
+	@echo "... core/commands/cat_cmd.i"
+	@echo "... core/commands/cat_cmd.s"
+	@echo "... core/commands/chgrp.o"
+	@echo "... core/commands/chgrp.i"
+	@echo "... core/commands/chgrp.s"
 	@echo "... core/commands/fdisk.o"
 	@echo "... core/commands/fdisk.i"
 	@echo "... core/commands/fdisk.s"
+	@echo "... core/commands/mkdir_cmd.o"
+	@echo "... core/commands/mkdir_cmd.i"
+	@echo "... core/commands/mkdir_cmd.s"
 	@echo "... core/commands/mkdisk.o"
 	@echo "... core/commands/mkdisk.i"
 	@echo "... core/commands/mkdisk.s"
+	@echo "... core/commands/mkfile_cmd.o"
+	@echo "... core/commands/mkfile_cmd.i"
+	@echo "... core/commands/mkfile_cmd.s"
 	@echo "... core/commands/mkfs.o"
 	@echo "... core/commands/mkfs.i"
 	@echo "... core/commands/mkfs.s"
+	@echo "... core/commands/mkgrp.o"
+	@echo "... core/commands/mkgrp.i"
+	@echo "... core/commands/mkgrp.s"
+	@echo "... core/commands/mkusr.o"
+	@echo "... core/commands/mkusr.i"
+	@echo "... core/commands/mkusr.s"
 	@echo "... core/commands/mount.o"
 	@echo "... core/commands/mount.i"
 	@echo "... core/commands/mount.s"
+	@echo "... core/commands/rep_cmd.o"
+	@echo "... core/commands/rep_cmd.i"
+	@echo "... core/commands/rep_cmd.s"
 	@echo "... core/commands/rmdisk.o"
 	@echo "... core/commands/rmdisk.i"
 	@echo "... core/commands/rmdisk.s"
+	@echo "... core/commands/rmgrp.o"
+	@echo "... core/commands/rmgrp.i"
+	@echo "... core/commands/rmgrp.s"
+	@echo "... core/commands/rmusr.o"
+	@echo "... core/commands/rmusr.i"
+	@echo "... core/commands/rmusr.s"
 	@echo "... core/disk/disk_creator.o"
 	@echo "... core/disk/disk_creator.i"
 	@echo "... core/disk/disk_creator.s"
-	@echo "... core/filesystem/SuperBlock.o"
-	@echo "... core/filesystem/SuperBlock.i"
-	@echo "... core/filesystem/SuperBlock.s"
 	@echo "... core/filesystem/ext2_reader.o"
 	@echo "... core/filesystem/ext2_reader.i"
 	@echo "... core/filesystem/ext2_reader.s"
 	@echo "... core/filesystem/ext2_writer.o"
 	@echo "... core/filesystem/ext2_writer.i"
 	@echo "... core/filesystem/ext2_writer.s"
+	@echo "... core/filesystem/login.o"
+	@echo "... core/filesystem/login.i"
+	@echo "... core/filesystem/login.s"
+	@echo "... core/filesystem/logout.o"
+	@echo "... core/filesystem/logout.i"
+	@echo "... core/filesystem/logout.s"
+	@echo "... core/filesystem/session_manager.o"
+	@echo "... core/filesystem/session_manager.i"
+	@echo "... core/filesystem/session_manager.s"
 	@echo "... core/mount/mount_manager.o"
 	@echo "... core/mount/mount_manager.i"
 	@echo "... core/mount/mount_manager.s"
+	@echo "... core/reports/report_block.o"
+	@echo "... core/reports/report_block.i"
+	@echo "... core/reports/report_block.s"
+	@echo "... core/reports/report_bm.o"
+	@echo "... core/reports/report_bm.i"
+	@echo "... core/reports/report_bm.s"
+	@echo "... core/reports/report_disk.o"
+	@echo "... core/reports/report_disk.i"
+	@echo "... core/reports/report_disk.s"
+	@echo "... core/reports/report_file.o"
+	@echo "... core/reports/report_file.i"
+	@echo "... core/reports/report_file.s"
+	@echo "... core/reports/report_inode.o"
+	@echo "... core/reports/report_inode.i"
+	@echo "... core/reports/report_inode.s"
+	@echo "... core/reports/report_ls.o"
+	@echo "... core/reports/report_ls.i"
+	@echo "... core/reports/report_ls.s"
+	@echo "... core/reports/report_mbr.o"
+	@echo "... core/reports/report_mbr.i"
+	@echo "... core/reports/report_mbr.s"
+	@echo "... core/reports/report_sb.o"
+	@echo "... core/reports/report_sb.i"
+	@echo "... core/reports/report_sb.s"
+	@echo "... core/reports/report_tree.o"
+	@echo "... core/reports/report_tree.i"
+	@echo "... core/reports/report_tree.s"
 	@echo "... core/utils/parser.o"
 	@echo "... core/utils/parser.i"
 	@echo "... core/utils/parser.s"
