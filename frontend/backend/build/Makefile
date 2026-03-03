@@ -849,6 +849,30 @@ core/reports/report_tree.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.s
 .PHONY : core/reports/report_tree.cpp.s
 
+core/server/server.o: core/server/server.cpp.o
+.PHONY : core/server/server.o
+
+# target to build an object file
+core/server/server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/server/server.cpp.o
+.PHONY : core/server/server.cpp.o
+
+core/server/server.i: core/server/server.cpp.i
+.PHONY : core/server/server.i
+
+# target to preprocess a source file
+core/server/server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/server/server.cpp.i
+.PHONY : core/server/server.cpp.i
+
+core/server/server.s: core/server/server.cpp.s
+.PHONY : core/server/server.s
+
+# target to generate assembly for a file
+core/server/server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/server/server.cpp.s
+.PHONY : core/server/server.cpp.s
+
 core/utils/parser.o: core/utils/parser.cpp.o
 .PHONY : core/utils/parser.o
 
@@ -996,6 +1020,9 @@ help:
 	@echo "... core/reports/report_tree.o"
 	@echo "... core/reports/report_tree.i"
 	@echo "... core/reports/report_tree.s"
+	@echo "... core/server/server.o"
+	@echo "... core/server/server.i"
+	@echo "... core/server/server.s"
 	@echo "... core/utils/parser.o"
 	@echo "... core/utils/parser.i"
 	@echo "... core/utils/parser.s"

@@ -38,6 +38,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/reports/report_mbr.cpp" "CMakeFiles/extreamfs.dir/core/reports/report_mbr.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/reports/report_mbr.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/reports/report_sb.cpp" "CMakeFiles/extreamfs.dir/core/reports/report_sb.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/reports/report_sb.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/reports/report_tree.cpp" "CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.o.d"
+  "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/server.cpp" "CMakeFiles/extreamfs.dir/core/server/server.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/server/server.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/utils/parser.cpp" "CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o.d"
   "/home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/main.cpp" "CMakeFiles/extreamfs.dir/include/main.cpp.o" "gcc" "CMakeFiles/extreamfs.dir/include/main.cpp.o.d"
   )

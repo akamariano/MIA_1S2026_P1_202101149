@@ -59,6 +59,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/extreamfs.dir/core/reports/report_sb.cpp.o.d"
   "CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.o"
   "CMakeFiles/extreamfs.dir/core/reports/report_tree.cpp.o.d"
+  "CMakeFiles/extreamfs.dir/core/server/server.cpp.o"
+  "CMakeFiles/extreamfs.dir/core/server/server.cpp.o.d"
   "CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o"
   "CMakeFiles/extreamfs.dir/core/utils/parser.cpp.o.d"
   "CMakeFiles/extreamfs.dir/include/main.cpp.o"

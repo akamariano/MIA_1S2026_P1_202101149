@@ -136,9 +136,14 @@ CMakeFiles/extreamfs.dir/core/commands/rep_cmd.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_disk.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_sb.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_inode.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_block.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_tree.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_bm.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_file.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../reports/report_ls.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/commands/../mount/mount_manager.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/exception \
