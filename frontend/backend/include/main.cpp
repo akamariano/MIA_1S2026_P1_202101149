@@ -21,6 +21,7 @@
 #include "commands/mkfile_cmd.h"
 #include "commands/cat_cmd.h"
 #include "commands/rep_cmd.h"
+#include "server/server.h"
 #include <algorithm>
 #include <string>
 
@@ -35,22 +36,27 @@ std::vector<std::string> split(std::string input) {
 
     return tokens;
 }
-
-int main() {
-
+int main(int argc, char* argv[]) {
     srand(time(nullptr));
 
-    std::string input;
+    // Verificar si se inicia en modo servidor (acepta puerto como parámetro)
+    if (argc >= 2 && std::string(argv[1]) == "--server") {
+        int port = (argc >= 3) ? std::stoi(argv[2]) : 8080;
+        startServer(port);
+        return 0;
+    }
 
+    // Modo consola interactivo
+    std::string input;
     std::cout << "====== EXTREAMFS CONSOLA ======\n";
     std::cout << "Escriba 'exit' para salir\n\n";
-
+    
     while (true) {
 
             std::cout << "extreamfs> ";
             std::getline(std::cin, input);
 
-            //  Salir si EOF (cuando se usa < archivo.txt)
+            // Detectar si llegamos al fin de entrada (útil para piped input)
             if (std::cin.eof()) break;
 
             if (input.empty()) continue;
@@ -64,65 +70,64 @@ int main() {
 
         std::string command = args[0];
 
-        // ================== MKDISK ==================
-if (command == "mkdisk") {
+        // Procesar comando mkdisk
+        if (command == "mkdisk") {
 
-    int size = -1;
-    char unit = 'M';          // default
-    std::string fit = "FF";   // default
-    std::string path = "";
+            int size = -1;
+            char unit = 'M';          // Unidad por defecto
+            std::string fit = "FF";   // Estrategia por defecto
+            std::string path = "";
 
-    for (int i = 1; i < args.size(); i++) {
+            for (int i = 1; i < args.size(); i++) {
 
-        std::string param = args[i];
+                std::string param = args[i];
 
-        // Convertir a minúsculas para comparar
-        std::string lower = param;
-        std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                // Convertir a minúsculas para facilitar comparación
+                std::string lower = param;
+                std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
 
-        if (lower.find("-size=") == 0) {
-            size = std::stoi(param.substr(6));
+                if (lower.find("-size=") == 0) {
+                    size = std::stoi(param.substr(6));
+                }
+                else if (lower.find("-unit=") == 0) {
+                    unit = toupper(param.substr(6)[0]);
+                }
+                else if (lower.find("-fit=") == 0) {
+                    fit = param.substr(5);
+                    std::transform(fit.begin(), fit.end(), fit.begin(), ::toupper);
+                }
+                else if (lower.find("-path=") == 0) {
+                    path = param.substr(6);
+                }
+            }
+
+            // Validar que los parámetros sean correcto
+            if (size <= 0) {
+                std::cout << "ERROR: size debe ser mayor a 0\n";
+                continue;
+            }
+
+            if (unit != 'K' && unit != 'M') {
+                std::cout << "ERROR: unit debe ser K o M\n";
+                continue;
+            }
+
+            if (fit != "BF" && fit != "FF" && fit != "WF") {
+                std::cout << "ERROR: fit debe ser BF, FF o WF\n";
+                continue;
+            }
+
+            if (path.empty()) {
+                std::cout << "ERROR: path es obligatorio\n";
+                continue;
+            }
+
+            MkDisk mk;
+            mk.execute(size, unit, fit, path);
         }
-        else if (lower.find("-unit=") == 0) {
-            unit = toupper(param.substr(6)[0]);
-        }
-        else if (lower.find("-fit=") == 0) {
-            fit = param.substr(5);
-            std::transform(fit.begin(), fit.end(), fit.begin(), ::toupper);
-        }
-        else if (lower.find("-path=") == 0) {
-            path = param.substr(6);
-        }
-    }
-
-    // ===== VALIDACIONES =====
-
-    if (size <= 0) {
-        std::cout << "ERROR: size debe ser mayor a 0\n";
-        continue;
-    }
-
-    if (unit != 'K' && unit != 'M') {
-        std::cout << "ERROR: unit debe ser K o M\n";
-        continue;
-    }
-
-    if (fit != "BF" && fit != "FF" && fit != "WF") {
-        std::cout << "ERROR: fit debe ser BF, FF o WF\n";
-        continue;
-    }
-
-    if (path.empty()) {
-        std::cout << "ERROR: path es obligatorio\n";
-        continue;
-    }
-
-    MkDisk mk;
-    mk.execute(size, unit, fit, path);
-}
 
 
-        // ================== LOGIN ==================
+        // Procesar comando login
         else if (command == "login") {
             std::string user = "", pass = "", id = "";
 

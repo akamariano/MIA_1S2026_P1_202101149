@@ -13,12 +13,14 @@ using namespace std;
 
 void Mkfs::execute(string id) {
 
+    // Obtener la partición montada con ese ID
     MountedPartition* part = MountManager::getMountedById(id);
     if (!part) {
         cout << "ERROR: ID no montado\n";
         return;
     }
 
+    // Abrir el archivo de disco para lectura/escritura
     FILE* file = fopen(part->path.c_str(), "rb+");
     if (!file) {
         cout << "ERROR: No se pudo abrir el disco\n";
@@ -28,29 +30,36 @@ void Mkfs::execute(string id) {
     long long partitionStart = part->start;
     long long partitionSize  = part->size;
 
+    // Calcular número de inodos usando la fórmula:
+    // n = (tamaño_partición - SB) / (1 + 3 + sizeof(Inode) + 3*sizeof(FileBlock))
     double denominator = 1.0 + 3.0
                        + (double)sizeof(Inode)
                        + 3.0 * (double)sizeof(FileBlock);
 
     int n = (int)floor((partitionSize - (double)sizeof(SuperBlock)) / denominator);
 
+    // Verificar que la partición sea lo suficientemente grande
     if (n <= 0) {
         cout << "ERROR: Partición demasiado pequeña\n";
         fclose(file);
         return;
     }
 
+    // Definir cantidades: n inodos, 3n bloques
     int numInodes = n;
     int numBlocks = 3 * n;
 
+    // Tamaños en bytes
     int bytesInodeBitmap = numInodes;
     int bytesBlockBitmap = numBlocks;
 
+    // Calcular posiciones en disco
     long long bm_inode_start = partitionStart + sizeof(SuperBlock);
     long long bm_block_start = bm_inode_start + bytesInodeBitmap;
     long long inode_start    = bm_block_start + bytesBlockBitmap;
     long long block_start    = inode_start    + (long long)(numInodes * sizeof(Inode));
 
+    // Crear y configurar el SuperBloque
     SuperBlock sb;
     memset(&sb, 0, sizeof(SuperBlock));
     sb.s_filesystem_type   = 2;
@@ -71,11 +80,13 @@ void Mkfs::execute(string id) {
     sb.s_inode_start       = inode_start;
     sb.s_block_start       = block_start;
 
+    // Inicializar mapas de bits (todos los bits en 0 = libres)
     vector<unsigned char> bm_inode(bytesInodeBitmap, 0);
     vector<unsigned char> bm_block(bytesBlockBitmap, 0);
-    bm_inode[0] = 1;
-    bm_block[0] = 1;
+    bm_inode[0] = 1;  // Inode 0 usado (root)
+    bm_block[0] = 1;  // Bloque 0 usado (contenido de root)
 
+    // Crear el inode raíz
     Inode root;
     memset(&root, 0, sizeof(Inode));
     root.i_uid   = 1;
@@ -87,6 +98,7 @@ void Mkfs::execute(string id) {
     for (int i = 0; i < 15; i++) root.i_block[i] = -1;
     root.i_block[0] = 0;
 
+    // Crear bloque del directorio raíz con . y ..
     DirectoryBlock rootBlock;
     memset(&rootBlock, 0, sizeof(DirectoryBlock));
     strncpy(rootBlock.b_content[0].b_name, ".",  11);
@@ -96,6 +108,7 @@ void Mkfs::execute(string id) {
     rootBlock.b_content[2].b_inodo = -1;
     rootBlock.b_content[3].b_inodo = -1;
 
+    // Escribir en disco comenzando en la partición
     fseek(file, partitionStart, SEEK_SET);
     fwrite(&sb, sizeof(SuperBlock), 1, file);
 

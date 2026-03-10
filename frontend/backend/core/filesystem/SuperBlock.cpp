@@ -6,23 +6,28 @@ SuperBlock createSuperBlock(int partition_start, int partition_size) {
 
     SuperBlock sb;
 
+    // Tamaño de estructuras de datos
     int inode_size = sizeof(Inode);
-    int block_size = 64; // todos los bloques son 64 bytes
+    int block_size = 64; // todos los bloques de contenido tienen 64 bytes
 
-    // Fórmula para calcular n
+    // Fórmula para calcular n (número de inodos):
+    // n = (tamaño_partición - sizeof(SuperBlock)) / (1 + 3 + sizeof(Inode) + 3*sizeof(FileBlock))
+    // Donde: 1 byte para inode bitmap + 3 bytes para block bitmap + inode + 3 bloques de contenido
     double n = (double)(partition_size - sizeof(SuperBlock)) /
                (1 + 3 + inode_size + (3 * block_size));
 
     n = floor(n);
 
+    // Determinar cantidades: n inodos y 3n bloques de datos
     int total_inodes = (int)n;
     int total_blocks = 3 * total_inodes;
 
+    // Configurar metadatos del SuperBloque
     sb.s_filesystem_type = 2;
     sb.s_inodes_count = total_inodes;
     sb.s_blocks_count = total_blocks;
 
-    sb.s_free_inodes_count = total_inodes - 2; // root y users.txt
+    sb.s_free_inodes_count = total_inodes - 2; // Reservar root e inode de users.txt
     sb.s_free_blocks_count = total_blocks - 2;
 
     sb.s_mtime = time(nullptr);
@@ -36,7 +41,7 @@ SuperBlock createSuperBlock(int partition_start, int partition_size) {
     sb.s_first_ino = 2;
     sb.s_first_blo = 2;
 
-    // Offsets
+    // Calcular offsets (posiciones) en disco
     sb.s_bm_inode_start = partition_start + sizeof(SuperBlock);
     sb.s_bm_block_start = sb.s_bm_inode_start + total_inodes;
     sb.s_inode_start = sb.s_bm_block_start + total_blocks;

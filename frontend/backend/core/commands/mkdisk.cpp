@@ -9,17 +9,19 @@
 
 void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
 
+    // Verificar que el tamaño sea válido
     if (size <= 0) {
         std::cout << "ERROR: El tamaño debe ser mayor a 0\n";
         return;
     }
 
+    // Validar que la estrategia de ajuste sea reconocida
     if (fit != "BF" && fit != "FF" && fit != "WF") {
         std::cout << "ERROR: Fit inválido (use BF, FF o WF)\n";
         return;
     }
 
-    // long long para evitar desborde
+    // Convertir tamaño a bytes (evitar overflow con long long)
     long long bytes = 0;
     if (unit == 'K' || unit == 'k')
         bytes = (long long)size * 1024;
@@ -30,7 +32,7 @@ void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
         return;
     }
 
-    // crear directorios intermedios
+    // Crear directorios padres si no existen
     std::filesystem::path p(path);
     if (p.has_parent_path()) {
         std::error_code ec;
@@ -41,7 +43,7 @@ void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
         }
     }
 
-    // advertir si el disco ya existe
+    // Avisar si el disco ya existe
     {
         std::ifstream check(path);
         if (check.good()) {
@@ -49,14 +51,14 @@ void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
         }
     }
 
-    // una sola apertura de archivo
+    // Crear y abrir el archivo de disco
     std::fstream disk(path, std::ios::out | std::ios::binary | std::ios::trunc);
     if (!disk) {
         std::cout << "ERROR: No se pudo crear el archivo en: " << path << "\n";
         return;
     }
 
-    // Llenar con ceros
+    // Llenar todo el disco con ceros
     char buffer[1024] = {0};
     long long remaining = bytes;
     while (remaining > 0) {
@@ -65,7 +67,7 @@ void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
         remaining -= writeSize;
     }
 
-    // Escribir MBR al inicio
+    // Escribir el MBR en el inicio del disco
     MBR mbr;
     memset(&mbr, 0, sizeof(MBR));
     mbr.mbr_tamano          = bytes;
@@ -74,6 +76,7 @@ void MkDisk::execute(int size, char unit, std::string fit, std::string path) {
     strncpy(mbr.dsk_fit, fit.c_str(), 2);
     mbr.dsk_fit[2] = '\0';
 
+    // Inicializar todas las particiones como vacías
     for (int i = 0; i < 4; i++) {
         mbr.mbr_partitions[i].part_status = '0';
         mbr.mbr_partitions[i].part_type   = '0';

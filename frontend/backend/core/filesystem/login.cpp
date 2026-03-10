@@ -12,13 +12,13 @@ using namespace std;
 
 void Login::execute(const string& user, const string& pass, const string& id) {
 
-    // ===== VALIDAR SESIÓN ACTIVA =====
+    // Verificar que no haya una sesión activa ya
     if (SessionManager::isActive()) {
         cout << "ERROR: Ya hay una sesión activa. Ejecute 'logout' primero\n";
         return;
     }
 
-    // ===== OBTENER PARTICIÓN MONTADA =====
+    // Obtener la partición montada con ese ID
     MountedPartition* part = MountManager::getMountedById(id);
     if (!part) {
         cout << "ERROR: ID '" << id << "' no está montado\n";
@@ -34,7 +34,7 @@ void Login::execute(const string& user, const string& pass, const string& id) {
     SuperBlock sb;
     readSuperBlock(disk, part->start, sb);
 
-    // ===== LEER USERS.TXT =====
+    // Leer el archivo users.txt del filesystem
     string usersContent = EXT2Writer::readUsersFile(disk, sb, part->start);
     fclose(disk);
 
@@ -43,10 +43,8 @@ void Login::execute(const string& user, const string& pass, const string& id) {
         return;
     }
 
-    // ===== PARSEAR USERS.TXT =====
-    // Formato línea grupo:   id,G,nombre
-    // Formato línea usuario: id,U,grupo,nombre,pass
-
+    // Parsear los datos del archivo users.txt
+    // Formato: grupos como "id,G,nombre" y usuarios como "id,U,grupo,nombre,pass"
     struct UserEntry {
         int    uid;
         string group;

@@ -6,41 +6,39 @@
 
 using namespace std;
 
-// ============================================================
-// PRIVADO: crear carpeta y registrarla en el padre
-// ============================================================
+// Crear una carpeta y registrarla en el directorio padre
 int EXT2Writer::createDirectory(FILE* disk, SuperBlock& sb,
                                 long long partStart,
                                 int parentInode,
                                 const string& name,
                                 int uid, int gid) {
-    // 1. Asignar inodo
+    // Paso 1: Asignar un inode libre
     int newInodeNum = allocateInode(disk, sb, partStart);
     if (newInodeNum == -1) {
         cout << "ERROR: No hay inodos libres\n";
         return -1;
     }
 
-    // 2. Asignar bloque para contenido de la carpeta
+    // Paso 2: Asignar un bloque libre para los contenidos del directorio
     int newBlockNum = allocateBlock(disk, sb, partStart);
     if (newBlockNum == -1) {
         cout << "ERROR: No hay bloques libres\n";
         return -1;
     }
 
-    // 3. Crear inodo de carpeta
+    // Paso 3: Crear el inode para la carpeta
     Inode newInode;
     memset(&newInode, 0, sizeof(Inode));
     newInode.i_uid   = uid;
     newInode.i_gid   = gid;
     newInode.i_size  = sizeof(DirectoryBlock);
-    newInode.i_type  = '0'; // carpeta
+    newInode.i_type  = '0'; // 0 = directorio
     newInode.i_perm  = 664;
     newInode.i_atime = newInode.i_ctime = newInode.i_mtime = time(nullptr);
     for (int i = 0; i < 15; i++) newInode.i_block[i] = -1;
     newInode.i_block[0] = newBlockNum;
 
-    // 4. Crear bloque carpeta con . y ..
+    // Paso 4: Crear el bloque con las entradas . y ..
     DirectoryBlock db;
     memset(&db, 0, sizeof(DirectoryBlock));
     for (int i = 0; i < 4; i++) db.b_content[i].b_inodo = -1;
@@ -54,11 +52,11 @@ int EXT2Writer::createDirectory(FILE* disk, SuperBlock& sb,
     db.b_content[2].b_inodo = -1;
     db.b_content[3].b_inodo = -1;
 
-    // 5. Escribir en disco
+    // Paso 5: Escribir en disco
     writeInode(disk, sb, newInodeNum, newInode);
     writeBlock(disk, sb, newBlockNum, &db);
 
-    // 6. Registrar en el padre
+    // Paso 6: Registrar en el directorio padre
     if (!addEntryToDirectory(disk, sb, partStart, parentInode, name, newInodeNum)) {
         cout << "ERROR: No se pudo agregar entrada en directorio padre\n";
         return -1;
@@ -67,18 +65,17 @@ int EXT2Writer::createDirectory(FILE* disk, SuperBlock& sb,
     return newInodeNum;
 }
 
-// ============================================================
-// PRIVADO: escribir contenido string en bloques de archivo
-// ============================================================
+// Escribir contenido de un archivo en los bloques asignados
 bool EXT2Writer::writeFileContent(FILE* disk, SuperBlock& sb,
                                    long long partStart,
                                    Inode& fileInode, int inodeNum,
                                    const string& content) {
     int remaining = content.size();
     int offset    = 0;
-    int blockIdx  = 0; // índice en i_block[]
+    int blockIdx  = 0; // índice en el array i_block[]
 
     while (remaining > 0 && blockIdx < 12) {
+        // Asignar un nuevo bloque libre
         int newBlock = allocateBlock(disk, sb, partStart);
         if (newBlock == -1) {
             cout << "ERROR: No hay bloques libres para contenido\n";
@@ -88,6 +85,7 @@ bool EXT2Writer::writeFileContent(FILE* disk, SuperBlock& sb,
         FileBlock fb;
         memset(&fb, 0, sizeof(FileBlock));
 
+        // Escribir hasta 64 bytes en este bloque
         int writeSize = (remaining > 64) ? 64 : remaining;
         memcpy(fb.b_content, content.c_str() + offset, writeSize);
 
@@ -205,37 +203,29 @@ bool EXT2Writer::mkfile(FILE* disk, SuperBlock& sb, long long partStart,
     }
 
     // Verificar si el archivo ya existe
-    int existingFile = findInDirectory(disk, sb, currentInode, filename);
-    if (existingFile != -1) {
-        cout << "ADVERTENCIA: El archivo '" << filename << "' ya existe. ¿Sobreescribir? (Y/N): ";
-        char resp;
-        cin >> resp;
-        cin.ignore();
-        if (toupper(resp) != 'Y') {
-            cout << "Operación cancelada\n";
-            return false;
+        int existingFile = findInDirectory(disk, sb, currentInode, filename);
+if (existingFile != -1) {
+    // Sobreescribir directamente sin preguntar
+    Inode existing;
+    readInode(disk, sb, existingFile, existing);
+    // Liberar bloques anteriores
+    for (int b = 0; b < 12; b++) {
+        if (existing.i_block[b] != -1) {
+            writeBitmapBlock(disk, sb, existing.i_block[b], 0);
+            sb.s_free_blocks_count++;
+            existing.i_block[b] = -1;
         }
-        // Sobreescribir: reutilizar inodo existente
-        Inode existing;
-        readInode(disk, sb, existingFile, existing);
-        // Liberar bloques anteriores
-        for (int b = 0; b < 12; b++) {
-            if (existing.i_block[b] != -1) {
-                writeBitmapBlock(disk, sb, existing.i_block[b], 0);
-                sb.s_free_blocks_count++;
-                existing.i_block[b] = -1;
-            }
-        }
-        // Escribir nuevo contenido
-        string finalContent = content;
-        if (finalContent.empty() && size > 0) {
-            for (int i = 0; i < size; i++)
-                finalContent += (char)('0' + (i % 10));
-        }
-        writeFileContent(disk, sb, partStart, existing, existingFile, finalContent);
-        writeSuperBlock(disk, partStart, sb);
-        cout << "OK: Archivo '" << filename << "' sobreescrito\n";
-        return true;
+    }
+    // Escribir nuevo contenido
+    string finalContent = content;
+    if (finalContent.empty() && size > 0) {
+        for (int i = 0; i < size; i++)
+            finalContent += (char)('0' + (i % 10));
+    }
+    writeFileContent(disk, sb, partStart, existing, existingFile, finalContent);
+    writeSuperBlock(disk, partStart, sb);
+    cout << "OK: Archivo '" << filename << "' sobreescrito\n";
+    return true;
     }
 
     // Crear nuevo inodo de archivo

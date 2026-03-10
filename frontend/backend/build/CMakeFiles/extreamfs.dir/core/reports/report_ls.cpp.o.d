@@ -186,4 +186,9 @@ CMakeFiles/extreamfs.dir/core/reports/report_ls.cpp.o: \
  /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/SuperBlock.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/Inode.h \
- /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/Blocks.h
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/Blocks.h \
+ /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
+ /usr/include/c++/11/bits/node_handle.h \
+ /usr/include/c++/11/bits/stl_map.h \
+ /usr/include/c++/11/bits/stl_multimap.h \
+ /usr/include/c++/11/bits/erase_if.h

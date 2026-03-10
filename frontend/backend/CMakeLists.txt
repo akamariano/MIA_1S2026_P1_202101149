@@ -46,6 +46,9 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/core/reports/report_block.cpp
     ${PROJECT_SOURCE_DIR}/core/reports/report_tree.cpp
     ${PROJECT_SOURCE_DIR}/core/reports/report_ls.cpp
+    ${PROJECT_SOURCE_DIR}/core/server/server.cpp
 )
 
 add_executable(extreamfs ${SOURCES})
+find_package(Threads REQUIRED)
+target_link_libraries(extreamfs Threads::Threads)

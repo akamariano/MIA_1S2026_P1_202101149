@@ -8,13 +8,13 @@
 #include <algorithm>
 #include <climits>
 
-// ✅ Fix #2: long long para offsets
+// Estructura para registrar espacios libres en el disco
 struct EspacioLibre {
     long long inicio;
     long long tamano;
 };
 
-// ✅ Fix #3: long long en pos
+// Buscar si existe una partición lógica con ese nombre
 bool FDisk::existeNombreLogica(FILE* disk, long long startExtendida, std::string nombre) {
 
     EBR ebr;
@@ -35,6 +35,7 @@ bool FDisk::existeNombreLogica(FILE* disk, long long startExtendida, std::string
     return false;
 }
 
+// Mostrar todas las particiones lógicas de la partición extendida
 void FDisk::printLogicas(FILE* disk, long long startExtendida) {
 
     EBR ebr;
@@ -67,19 +68,20 @@ void FDisk::printLogicas(FILE* disk, long long startExtendida) {
 void FDisk::execute(int size, char unit, std::string path,
                     char type, std::string fit, std::string name) {
 
+    // Validar que el tamaño sea positivo
     if (size <= 0) {
         std::cout << "ERROR: El tamaño debe ser mayor a 0\n";
         return;
     }
 
-    // ✅ Fix #5: validar fit ANTES de usarlo
+    // Usar fit por defecto si no se especifica
     if (fit.empty()) fit = "WF";
     if (fit != "BF" && fit != "FF" && fit != "WF") {
         std::cout << "ERROR: Fit inválido (use BF, FF o WF)\n";
         return;
     }
 
-    // ✅ Fix #1: long long para bytes
+    // Convertir tamaño a bytes según la unidad
     long long bytes = size;
     if (unit == 'K' || unit == 'k')
         bytes *= 1024;
@@ -90,6 +92,7 @@ void FDisk::execute(int size, char unit, std::string path,
         return;
     }
 
+    // Abrir el archivo de disco para lectura/escritura
     FILE* file = fopen(path.c_str(), "rb+");
     if (!file) {
         std::cout << "ERROR: No se pudo abrir el disco\n";

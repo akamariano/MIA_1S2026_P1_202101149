@@ -4,6 +4,7 @@
 #include "../core/filesystem/SuperBlock.h"
 #include <sstream>
 #include <ctime>
+#include <iomanip>
 using namespace std;
 
 void ReportSb::generate(FILE* disk, MountedPartition* part,
@@ -13,44 +14,57 @@ void ReportSb::generate(FILE* disk, MountedPartition* part,
 
     auto fmtTime = [](time_t t) -> string {
         if (t == 0) return "N/A";
-        char buf[64];
-        struct tm* tm_info = localtime(&t);
-        strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", tm_info);
+        char buf[32];
+        struct tm* ti = localtime(&t);
+        strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", ti);
         return string(buf);
     };
 
     ostringstream dot;
     dot << "digraph SB {\n";
-    dot << "  node [shape=plaintext]\n\n";
-    dot << "  sb [label=<\n";
-    dot << "    <TABLE BORDER='1' CELLBORDER='1' CELLSPACING='0'>\n";
-    dot << "      <TR><TD COLSPAN='2' BGCOLOR='#1A237E'><FONT COLOR='white'><B>SUPERBLOQUE</B></FONT></TD></TR>\n";
+    dot << "  node [shape=plaintext fontname=\"Helvetica\"]\n\n";
 
-    auto row = [&](const string& field, const string& val) {
-        dot << "      <TR><TD BGCOLOR='#E8EAF6'><B>" << field
-            << "</B></TD><TD>" << val << "</TD></TR>\n";
+    dot << "  sb [label=<\n";
+    dot << "    <TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" CELLPADDING=\"6\" WIDTH=\"400\">\n";
+
+    // Header
+    dot << "      <TR><TD COLSPAN=\"2\" BGCOLOR=\"#1E8449\" ALIGN=\"CENTER\">"
+        << "<FONT COLOR=\"white\"><B>Reporte de SUPERBLOQUE</B></FONT></TD></TR>\n";
+
+    auto row = [&](const string& key, const string& val) {
+        dot << "      <TR>"
+            << "<TD BGCOLOR=\"#A9DFBF\" ALIGN=\"LEFT\"><B>" << key << "</B></TD>"
+            << "<TD BGCOLOR=\"#D5F5E3\" ALIGN=\"LEFT\">" << val << "</TD>"
+            << "</TR>\n";
     };
 
-    row("Filesystem Type",    to_string(sb.s_filesystem_type));
-    row("Inodos Totales",     to_string(sb.s_inodes_count));
-    row("Bloques Totales",    to_string(sb.s_blocks_count));
-    row("Inodos Libres",      to_string(sb.s_free_inodes_count));
-    row("Bloques Libres",     to_string(sb.s_free_blocks_count));
-    row("Tamaño Inodo",       to_string(sb.s_inode_size) + " bytes");
-    row("Tamaño Bloque",      to_string(sb.s_block_size) + " bytes");
-    row("Magic",              "0x" + [&](){
-                                  ostringstream ss;
-                                  ss << hex << sb.s_magic;
-                                  return ss.str(); }());
-    row("Primer Inodo",       to_string(sb.s_first_ino));
-    row("Primer Bloque",      to_string(sb.s_first_blo));
-    row("Último Montaje",     fmtTime(sb.s_mtime));
-    row("Último Desmontaje",  fmtTime(sb.s_umtime));
-    row("Veces Montado",      to_string(sb.s_mnt_count));
-    row("BM Inodos Start",    to_string(sb.s_bm_inode_start));
-    row("BM Bloques Start",   to_string(sb.s_bm_block_start));
-    row("Inodos Start",       to_string(sb.s_inode_start));
-    row("Bloques Start",      to_string(sb.s_block_start));
+    row("sb_nombre_hd",               part->path.substr(part->path.find_last_of("/\\") + 1));
+    row("sb_ap_inodo_s",              to_string(sb.s_inodes_count));
+    row("sb_ap_bloque_s",             to_string(sb.s_blocks_count));
+    row("sb_inodos_libres",           to_string(sb.s_free_inodes_count));
+    row("sb_bloques_libres",          to_string(sb.s_free_blocks_count));
+    row("sb_detalle_directorio_free", to_string(sb.s_free_inodes_count));
+    row("sb_bloques_free",            to_string(sb.s_free_blocks_count));
+    row("sb_fecha_creacion",          fmtTime(sb.s_mtime));
+    row("sb_fecha_ultimo_montaje",    fmtTime(sb.s_mtime));
+    row("sb_magic",                   "0xef53");
+    row("sb_ap_bitmap_arbol_directorio", to_string(sb.s_bm_inode_start));
+    row("sb_ap_arbol_directorio",     to_string(sb.s_inode_start));
+    row("sb_ap_bitmap_directorio",    to_string(sb.s_bm_inode_start));
+    row("sb_ap_detalle_directorio",   to_string(sb.s_inode_start));
+    row("sb_ap_bitmap_bloques",       to_string(sb.s_bm_block_start));
+    row("sb_ap_bloques",              to_string(sb.s_block_start));
+    row("sb_tamano_inodo",            to_string(sb.s_inode_size));
+    row("sb_size_struct_arbol_directorio", to_string(sb.s_inode_size));
+    row("sb_size_directorio_detalle_director", to_string(sizeof(DirectoryBlock)));
+    row("sb_size_free_bit_bloque",    "1");
+    row("sb_first_free_bit_inode_directorio", to_string(sb.s_first_ino));
+    row("sb_first_free_bit_bloques", to_string(sb.s_first_blo));
+    row("sb_magic_2",                 "0xef53");
+
+    // Footer
+    dot << "      <TR><TD COLSPAN=\"2\" BGCOLOR=\"#1E8449\" ALIGN=\"CENTER\">"
+        << "<FONT COLOR=\"white\"><FONT POINT-SIZE=\"9\">Reporte de SuperBloque</FONT></FONT></TD></TR>\n";
 
     dot << "    </TABLE>>];\n";
     dot << "}\n";

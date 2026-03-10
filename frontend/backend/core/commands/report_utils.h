@@ -5,7 +5,8 @@
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
-
+#include <iomanip>
+#include <sstream>
 // Determina formato según extensión del path
 inline std::string getFormat(const std::string& path) {
     std::string ext = std::filesystem::path(path).extension().string();
@@ -20,15 +21,15 @@ inline std::string getFormat(const std::string& path) {
 inline void renderDot(const std::string& dotContent,
                       const std::string& outPath) {
     std::string fmt    = getFormat(outPath);
-    std::string tmpDot = "/tmp/extreamfs_report.dot";
+    std::string tmpDot = "/tmp/extreamfs_" + 
+                         std::filesystem::path(outPath).stem().string() + 
+                         ".dot";  // ← nombre único por reporte
 
-    // Escribir .dot temporal
     FILE* f = fopen(tmpDot.c_str(), "w");
     if (!f) { std::cout << "ERROR: No se pudo crear archivo .dot\n"; return; }
     fprintf(f, "%s", dotContent.c_str());
     fclose(f);
 
-    // Ejecutar graphviz
     std::string cmd = "dot -T" + fmt + " " + tmpDot + " -o " + outPath;
     int result = system(cmd.c_str());
     if (result == 0)
@@ -36,7 +37,6 @@ inline void renderDot(const std::string& dotContent,
     else
         std::cout << "ERROR: Falló graphviz al generar reporte\n";
 }
-
 // Para reportes .txt (bm_inode, bm_block, file)
 inline void writeTxt(const std::string& content,
                      const std::string& outPath) {
