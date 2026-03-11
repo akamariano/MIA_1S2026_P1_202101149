@@ -1,0 +1,86 @@
+# ===================================
+# Script de VERIFICACION de Reportes
+# Autor: Mariano - 202101149
+# Un solo disco, un reporte de cada tipo
+# ===================================
+
+mkdisk -size=5 -unit=M -path=/home/mariano/Discos/DiscoMariano.mia
+fdisk -size=2 -unit=M -path=/home/mariano/Discos/DiscoMariano.mia -type=P -name=partPrincipal
+fdisk -size=1 -unit=M -path=/home/mariano/Discos/DiscoMariano.mia -type=E -name=partExtendida
+fdisk -size=500 -unit=K -path=/home/mariano/Discos/DiscoMariano.mia -type=L -name=partLogica1
+fdisk -size=400 -unit=K -path=/home/mariano/Discos/DiscoMariano.mia -type=L -name=partLogica2
+
+mount -path=/home/mariano/Discos/DiscoMariano.mia -name=partPrincipal
+mount
+
+mkfs -id=491A -type=full
+
+# ===================================
+# SESION
+# ===================================
+
+login -user=root -pass=123 -id=491A
+
+# Usuarios y grupos
+mkgrp -name=devs
+mkgrp -name=admins
+mkusr -user=mariano -pass=mar123 -grp=devs
+mkusr -user=ana -pass=ana123 -grp=admins
+
+# Estructura de carpetas
+mkdir -path=/home -p
+mkdir -path=/home/mariano -p
+mkdir -path=/home/mariano/documentos -p
+mkdir -path=/home/mariano/imagenes -p
+mkdir -path=/home/ana -p
+mkdir -path=/etc -p
+
+# Archivos normales
+mkfile -path=/home/mariano/documentos/tarea.txt -size=64 -r
+mkfile -path=/home/mariano/documentos/notas.txt -size=32 -r
+mkfile -path=/home/mariano/imagenes/foto.txt -size=48 -r
+mkfile -path=/home/ana/reporte.txt -size=96 -r
+mkfile -path=/etc/config.txt -size=15 -r
+
+# Archivo grande para forzar bloque apuntador (>768 bytes)
+mkfile -path=/home/mariano/documentos/grande.txt -size=900 -r
+
+# cat para verificar lectura
+cat -file1=/home/mariano/documentos/tarea.txt
+cat -file1=/home/mariano/documentos/grande.txt
+
+# ===================================
+# UN REPORTE DE CADA TIPO
+# ===================================
+
+# 1. MBR - estructura del disco con particiones y EBRs
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_mbr.jpg -name=mbr
+
+# 2. DISK - vista proporcional del disco
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_disk.jpg -name=disk
+
+# 3. INODE - todos los inodos utilizados
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_inode.jpg -name=inode
+
+# 4. BLOCK - todos los bloques utilizados (carpeta, archivo, apuntador)
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_block.jpg -name=block
+
+# 5. BM_INODE - bitmap de inodos en texto
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_bm_inode.txt -name=bm_inode
+
+# 6. BM_BLOCK - bitmap de bloques en texto
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_bm_block.txt -name=bm_block
+
+# 7. TREE - árbol completo del sistema de archivos
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_tree.jpg -name=tree
+
+# 8. SB - superbloque
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_sb.jpg -name=sb
+
+# 9. FILE - contenido de un archivo
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_file.txt -name=file -path_file_ls=/home/mariano/documentos/tarea.txt
+
+# 10. LS - listado de carpeta
+rep -id=491A -path=/home/mariano/Reportes/verificacion/rep_ls.jpg -name=ls -path_file_ls=/home/mariano/documentos
+
+logout

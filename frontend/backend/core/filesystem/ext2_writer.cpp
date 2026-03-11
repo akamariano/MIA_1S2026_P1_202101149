@@ -66,16 +66,16 @@ int EXT2Writer::createDirectory(FILE* disk, SuperBlock& sb,
 }
 
 // Escribir contenido de un archivo en los bloques asignados
-bool EXT2Writer::writeFileContent(FILE* disk, SuperBlock& sb,
+    bool EXT2Writer::writeFileContent(FILE* disk, SuperBlock& sb,
                                    long long partStart,
                                    Inode& fileInode, int inodeNum,
                                    const string& content) {
     int remaining = content.size();
     int offset    = 0;
-    int blockIdx  = 0; // índice en el array i_block[]
+    int blockIdx  = 0;
 
+    // ── Bloques directos i_block[0..11] ──
     while (remaining > 0 && blockIdx < 12) {
-        // Asignar un nuevo bloque libre
         int newBlock = allocateBlock(disk, sb, partStart);
         if (newBlock == -1) {
             cout << "ERROR: No hay bloques libres para contenido\n";
@@ -84,8 +84,6 @@ bool EXT2Writer::writeFileContent(FILE* disk, SuperBlock& sb,
 
         FileBlock fb;
         memset(&fb, 0, sizeof(FileBlock));
-
-        // Escribir hasta 64 bytes en este bloque
         int writeSize = (remaining > 64) ? 64 : remaining;
         memcpy(fb.b_content, content.c_str() + offset, writeSize);
 
@@ -97,7 +95,45 @@ bool EXT2Writer::writeFileContent(FILE* disk, SuperBlock& sb,
         blockIdx++;
     }
 
-    // Actualizar tamaño del inodo
+    // ── Bloque indirecto simple i_block[12] ──
+    if (remaining > 0) {
+        // Asignar bloque apuntador
+        int pointerBlock = allocateBlock(disk, sb, partStart);
+        if (pointerBlock == -1) {
+            cout << "ERROR: No hay bloques libres para apuntador\n";
+            return false;
+        }
+        fileInode.i_block[12] = pointerBlock;
+
+        PointerBlock pb;
+        memset(&pb, 0, sizeof(PointerBlock));
+        for (int i = 0; i < 16; i++) pb.b_pointers[i] = -1;
+
+        int ptrIdx = 0;
+        while (remaining > 0 && ptrIdx < 16) {
+            int newBlock = allocateBlock(disk, sb, partStart);
+            if (newBlock == -1) {
+                cout << "ERROR: No hay bloques libres para contenido indirecto\n";
+                break;
+            }
+
+            FileBlock fb;
+            memset(&fb, 0, sizeof(FileBlock));
+            int writeSize = (remaining > 64) ? 64 : remaining;
+            memcpy(fb.b_content, content.c_str() + offset, writeSize);
+
+            writeBlock(disk, sb, newBlock, &fb);
+            pb.b_pointers[ptrIdx] = newBlock;
+
+            offset    += writeSize;
+            remaining -= writeSize;
+            ptrIdx++;
+        }
+
+        // Guardar bloque apuntador
+        writeBlock(disk, sb, pointerBlock, &pb);
+    }
+
     fileInode.i_size  = content.size();
     fileInode.i_mtime = time(nullptr);
     writeInode(disk, sb, inodeNum, fileInode);

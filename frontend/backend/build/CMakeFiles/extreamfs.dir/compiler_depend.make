@@ -4434,7 +4434,13 @@ CMakeFiles/extreamfs.dir/core/reports/report_block.cpp.o: ../core/reports/report
   /usr/include/strings.h \
   ../core/filesystem/SuperBlock.h \
   ../core/filesystem/Inode.h \
-  ../core/filesystem/Blocks.h
+  ../core/filesystem/Blocks.h \
+  /usr/include/c++/11/set \
+  /usr/include/c++/11/bits/stl_tree.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/stl_set.h \
+  /usr/include/c++/11/bits/stl_multiset.h \
+  /usr/include/c++/11/bits/erase_if.h
 
 CMakeFiles/extreamfs.dir/core/reports/report_bm.cpp.o: ../core/reports/report_bm.cpp \
   /usr/include/stdc-predef.h \
@@ -5609,7 +5615,13 @@ CMakeFiles/extreamfs.dir/core/reports/report_ls.cpp.o: ../core/reports/report_ls
   /usr/include/strings.h \
   ../core/filesystem/SuperBlock.h \
   ../core/filesystem/Inode.h \
-  ../core/filesystem/Blocks.h
+  ../core/filesystem/Blocks.h \
+  /usr/include/c++/11/map \
+  /usr/include/c++/11/bits/stl_tree.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/stl_map.h \
+  /usr/include/c++/11/bits/stl_multimap.h \
+  /usr/include/c++/11/bits/erase_if.h
 
 CMakeFiles/extreamfs.dir/core/reports/report_mbr.cpp.o: ../core/reports/report_mbr.cpp \
   /usr/include/stdc-predef.h \
@@ -7156,6 +7168,14 @@ CMakeFiles/extreamfs.dir/include/main.cpp.o: ../include/main.cpp \
 
 ../core/server/server.cpp:
 
+../core/reports/report_ls.cpp:
+
+../core/reports/report_disk.cpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
+
+../core/reports/report_bm.cpp:
+
 /usr/include/x86_64-linux-gnu/sys/mman.h:
 
 /usr/include/c++/11/bits/stl_multiset.h:
@@ -7167,14 +7187,6 @@ CMakeFiles/extreamfs.dir/include/main.cpp.o: ../include/main.cpp \
 /usr/include/c++/11/bits/stl_set.h:
 
 /usr/include/c++/11/set:
-
-../core/reports/report_ls.cpp:
-
-../core/reports/report_disk.cpp:
-
-/usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
-
-../core/reports/report_bm.cpp:
 
 ../core/commands/report_utils.h:
 

@@ -1,0 +1,200 @@
+
+# ===================================
+# Script de prueba ExtreamFS
+# Autor: Mariano - 202101149
+# ===================================
+
+# ===================================
+# DISCO 1 - Sistema principal (10MB)
+# ===================================
+
+mkdisk -size=10 -unit=M -path=/home/mariano/Discos/disco1.mia
+fdisk -size=4 -unit=M -path=/home/mariano/Discos/disco1.mia -type=P -name=part1
+fdisk -size=4 -unit=M -path=/home/mariano/Discos/disco1.mia -type=E -name=partE
+fdisk -size=1 -unit=M -path=/home/mariano/Discos/disco1.mia -type=L -name=partL1
+fdisk -size=1 -unit=M -path=/home/mariano/Discos/disco1.mia -type=L -name=partL2
+
+mount -path=/home/mariano/Discos/disco1.mia -name=part1
+mount
+
+mkfs -id=491A -type=full
+
+# ===================================
+# DISCO 2 - Sistema secundario (4MB)
+# ===================================
+
+mkdisk -size=4 -unit=M -path=/home/mariano/Discos/disco2.mia
+fdisk -size=1 -unit=M -path=/home/mariano/Discos/disco2.mia -type=P -name=part1
+fdisk -size=2 -unit=M -path=/home/mariano/Discos/disco2.mia -type=P -name=part2
+
+mount -path=/home/mariano/Discos/disco2.mia -name=part1
+mount -path=/home/mariano/Discos/disco2.mia -name=part2
+mount
+
+mkfs -id=491B -type=full
+mkfs -id=492B -type=full
+
+# ===================================
+# SESION DISCO 1 (491A)
+# ===================================
+
+login -user=root -pass=123 -id=491A
+
+mkgrp -name=devs
+mkgrp -name=admins
+mkgrp -name=testers
+mkgrp -name=temporal
+rmgrp -name=temporal
+
+mkusr -user=mariano -pass=mar123 -grp=devs
+mkusr -user=ana -pass=ana123 -grp=admins
+mkusr -user=luis -pass=luis123 -grp=devs
+mkusr -user=pedro -pass=ped123 -grp=testers
+mkusr -user=temporal -pass=tmp123 -grp=devs
+rmusr -user=temporal
+chgrp -user=luis -grp=admins
+
+mkdir -path=/home -p
+mkdir -path=/home/mariano -p
+mkdir -path=/home/mariano/documentos -p
+mkdir -path=/home/mariano/proyectos -p
+mkdir -path=/home/mariano/proyectos/mia -p
+mkdir -path=/home/mariano/proyectos/so -p
+mkdir -path=/home/mariano/imagenes -p
+mkdir -path=/home/ana -p
+mkdir -path=/home/ana/reportes -p
+mkdir -path=/home/ana/datos -p
+mkdir -path=/home/luis -p
+mkdir -path=/home/pedro -p
+mkdir -path=/home/pedro/tests -p
+mkdir -path=/usr -p
+mkdir -path=/usr/bin -p
+mkdir -path=/usr/lib -p
+mkdir -path=/etc -p
+mkdir -path=/var -p
+mkdir -path=/var/log -p
+
+# Archivos normales
+mkfile -path=/home/mariano/documentos/tarea1.txt -size=64 -r
+mkfile -path=/home/mariano/documentos/tarea2.txt -size=128 -r
+mkfile -path=/home/mariano/documentos/notas.txt -size=32 -r
+mkfile -path=/home/mariano/documentos/resumen.txt -size=48 -r
+mkfile -path=/home/mariano/proyectos/mia/main.txt -size=128 -r
+mkfile -path=/home/mariano/proyectos/mia/readme.txt -size=15 -r
+mkfile -path=/home/mariano/proyectos/mia/config.txt -size=32 -r
+mkfile -path=/home/mariano/proyectos/so/apuntes.txt -size=96 -r
+mkfile -path=/home/mariano/proyectos/so/tarea.txt -size=64 -r
+mkfile -path=/home/mariano/imagenes/foto1.txt -size=32 -r
+mkfile -path=/home/ana/reportes/informe.txt -size=96 -r
+mkfile -path=/home/ana/reportes/resumen.txt -size=48 -r
+mkfile -path=/home/ana/datos/datos1.txt -size=64 -r
+mkfile -path=/home/luis/notas.txt -size=32 -r
+mkfile -path=/home/luis/apuntes.txt -size=48 -r
+mkfile -path=/home/pedro/tests/test1.txt -size=64 -r
+mkfile -path=/home/pedro/tests/test2.txt -size=64 -r
+mkfile -path=/home/pedro/tests/test3.txt -size=32 -r
+mkfile -path=/etc/config.txt -size=15 -r
+mkfile -path=/etc/hosts.txt -size=32 -r
+mkfile -path=/var/log/sistema.txt -size=64 -r
+
+# Archivos grandes para forzar bloque indirecto (i_block[12])
+# 768 bytes = 12 bloques directos, >768 usa bloque apuntador
+mkfile -path=/home/mariano/documentos/grande.txt -size=900 -r
+mkfile -path=/home/mariano/proyectos/mia/proyecto_completo.txt -size=1000 -r
+mkfile -path=/home/ana/reportes/reporte_anual.txt -size=800 -r
+
+# Leer archivos
+cat -file1=/home/mariano/documentos/tarea1.txt
+cat -file1=/home/mariano/proyectos/mia/readme.txt
+cat -file1=/home/mariano/documentos/tarea1.txt -file2=/home/mariano/documentos/notas.txt
+cat -file1=/home/mariano/documentos/tarea1.txt -file2=/home/mariano/documentos/notas.txt -file3=/home/mariano/proyectos/mia/readme.txt
+
+# Reportes disco 1
+rep -id=491A -path=/home/mariano/Reportes/disco1_mbr.jpg -name=mbr
+rep -id=491A -path=/home/mariano/Reportes/disco1_sb.jpg -name=sb
+rep -id=491A -path=/home/mariano/Reportes/disco1_disk.jpg -name=disk
+rep -id=491A -path=/home/mariano/Reportes/disco1_inode.jpg -name=inode
+rep -id=491A -path=/home/mariano/Reportes/disco1_block.jpg -name=block
+rep -id=491A -path=/home/mariano/Reportes/disco1_tree.jpg -name=tree
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_root.jpg -name=ls -path_file_ls=/
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_home.jpg -name=ls -path_file_ls=/home
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_mariano.jpg -name=ls -path_file_ls=/home/mariano
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_docs.jpg -name=ls -path_file_ls=/home/mariano/documentos
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_mia.jpg -name=ls -path_file_ls=/home/mariano/proyectos/mia
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_ana.jpg -name=ls -path_file_ls=/home/ana
+rep -id=491A -path=/home/mariano/Reportes/disco1_ls_pedro.jpg -name=ls -path_file_ls=/home/pedro/tests
+rep -id=491A -path=/home/mariano/Reportes/disco1_bm_inode.txt -name=bm_inode
+rep -id=491A -path=/home/mariano/Reportes/disco1_bm_block.txt -name=bm_block
+rep -id=491A -path=/home/mariano/Reportes/disco1_tarea1.txt -name=file -path_file_ls=/home/mariano/documentos/tarea1.txt
+rep -id=491A -path=/home/mariano/Reportes/disco1_readme.txt -name=file -path_file_ls=/home/mariano/proyectos/mia/readme.txt
+rep -id=491A -path=/home/mariano/Reportes/disco1_config.txt -name=file -path_file_ls=/etc/config.txt
+rep -id=491A -path=/home/mariano/Reportes/disco1_grande.txt -name=file -path_file_ls=/home/mariano/documentos/grande.txt
+
+logout
+
+# ===================================
+# SESION DISCO 2 - part1 (491B)
+# ===================================
+
+login -user=root -pass=123 -id=491B
+
+mkdir -path=/datos -p
+mkdir -path=/datos/respaldos -p
+mkdir -path=/datos/logs -p
+mkfile -path=/datos/respaldos/backup1.txt -size=64 -r
+mkfile -path=/datos/respaldos/backup2.txt -size=32 -r
+mkfile -path=/datos/logs/log1.txt -size=48 -r
+mkfile -path=/datos/logs/log2.txt -size=32 -r
+
+# Archivo grande en disco 2
+mkfile -path=/datos/respaldos/backup_grande.txt -size=850 -r
+
+cat -file1=/datos/respaldos/backup1.txt
+
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_mbr.jpg -name=mbr
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_sb.jpg -name=sb
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_disk.jpg -name=disk
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_tree.jpg -name=tree
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_ls_root.jpg -name=ls -path_file_ls=/
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_ls_datos.jpg -name=ls -path_file_ls=/datos
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_bm_inode.txt -name=bm_inode
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_block.jpg -name=block
+rep -id=491B -path=/home/mariano/Reportes/disco2p1_backup1.txt -name=file -path_file_ls=/datos/respaldos/backup1.txt
+
+logout
+
+# ===================================
+# SESION DISCO 2 - part2 (492B)
+# ===================================
+
+login -user=root -pass=123 -id=492B
+
+mkdir -path=/archivos -p
+mkdir -path=/archivos/fotos -p
+mkdir -path=/archivos/videos -p
+mkdir -path=/archivos/docs -p
+mkfile -path=/archivos/fotos/foto1.txt -size=32 -r
+mkfile -path=/archivos/fotos/foto2.txt -size=32 -r
+mkfile -path=/archivos/fotos/foto3.txt -size=48 -r
+mkfile -path=/archivos/videos/video1.txt -size=64 -r
+mkfile -path=/archivos/videos/video2.txt -size=64 -r
+mkfile -path=/archivos/docs/doc1.txt -size=32 -r
+
+# Archivo grande en disco 2 part2
+mkfile -path=/archivos/docs/manual.txt -size=900 -r
+
+cat -file1=/archivos/fotos/foto1.txt -file2=/archivos/videos/video1.txt
+
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_sb.jpg -name=sb
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_disk.jpg -name=disk
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_tree.jpg -name=tree
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_inode.jpg -name=inode
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_block.jpg -name=block
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_ls_root.jpg -name=ls -path_file_ls=/
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_ls_archivos.jpg -name=ls -path_file_ls=/archivos
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_ls_fotos.jpg -name=ls -path_file_ls=/archivos/fotos
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_bm_inode.txt -name=bm_inode
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_bm_block.txt -name=bm_block
+rep -id=492B -path=/home/mariano/Reportes/disco2p2_foto1.txt -name=file -path_file_ls=/archivos/fotos/foto1.txt
+
+logout

@@ -40,7 +40,6 @@ void ReportInode::generate(FILE* disk, MountedPartition* part,
         nodes << "      <TR><TD COLSPAN=\"2\" BGCOLOR=\"#D5D8DC\" ALIGN=\"CENTER\">"
               << "<B>Inodo " << (i+1) << "</B></TD></TR>\n";
 
-        // Campos
         auto row = [&](const string& k, const string& v) {
             nodes << "      <TR>"
                   << "<TD BGCOLOR=\"#FDFEFE\" ALIGN=\"LEFT\"><B>" << k << "</B></TD>"
@@ -48,24 +47,26 @@ void ReportInode::generate(FILE* disk, MountedPartition* part,
                   << "</TR>\n";
         };
 
+        // Todos los campos del inodo
         row("i_uid",   to_string(inode.i_uid));
+        row("i_gid",   to_string(inode.i_gid));
         row("i_size",  to_string(inode.i_size));
         row("i_atime", fmtTime(inode.i_atime));
+        row("i_ctime", fmtTime(inode.i_ctime));
+        row("i_mtime", fmtTime(inode.i_mtime));
+        row("i_type",  string(1, inode.i_type));
+        row("i_perm",  to_string(inode.i_perm));
 
         // Solo bloques usados
         for (int b = 0; b < 15; b++) {
             if (inode.i_block[b] == -1) continue;
-            row("i_block_" + to_string(b+1), to_string(inode.i_block[b]));
+            row("i_block[" + to_string(b) + "]", to_string(inode.i_block[b]));
         }
-
-        row("i_perm", to_string(inode.i_perm));
 
         nodes << "    </TABLE>>];\n\n";
 
-        // Flecha al siguiente inodo
-        if (!prevNode.empty()) {
+        if (!prevNode.empty())
             edges << "  " << prevNode << " -> " << nodeId << ";\n";
-        }
         prevNode = nodeId;
     }
 
