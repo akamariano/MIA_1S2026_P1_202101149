@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <ctime>
 #include "mount/mount_manager.h"
-
 #include "commands/mkdisk.h"
 #include "commands/fdisk.h"
 #include "commands/rmdisk.h"
@@ -244,7 +243,12 @@ else if (command == "fdisk") {
             rm.execute(path);
         }
 
+            else if (command == "mounted") {
 
+            if (args.size() == 1) {
+                MountManager::showMounted();
+                continue;
+            }
         // ================== MOUNT ==================
                 else if (command == "mount") {
 
@@ -505,4 +509,5 @@ else if (command == "rep") {
     }
 
     return 0;
+}
 }

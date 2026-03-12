@@ -14,8 +14,6 @@
 using namespace std;
 using namespace httplib;
 
-// Incluir todas las clases de comandos que se pueden ejecutar
-// El servidor reutiliza el parsing y ejecución del backend
 #include "../commands/mkdisk.h"
 #include "../commands/fdisk.h"
 #include "../commands/rmdisk.h"
@@ -36,31 +34,65 @@ using namespace httplib;
 
 #include <algorithm>
 
-// Capturar stdout redirigiendo el buffer de cout hacia un stringstream
 string captureOutput(function<void()> fn) {
-    // Guardar el buffer original
     streambuf* oldBuf = cout.rdbuf();
     ostringstream ss;
     cout.rdbuf(ss.rdbuf());
-    
     fn();
-    
-    // Restaurar el buffer original
     cout.rdbuf(oldBuf);
     return ss.str();
 }
 
-// Dividir un comando en argumentos separados por espacios
+// Limpia comillas al inicio y fin de un string
+static string stripQuotes(const string& s) {
+    string r = s;
+    if (!r.empty() && r.front() == '"') r.erase(0, 1);
+    if (!r.empty() && r.back()  == '"') r.pop_back();
+    return r;
+}
+
+// Divide respetando comillas: -path="/home/mi carpeta" se trata como un token
 vector<string> splitArgs(const string& input) {
     vector<string> tokens;
-    istringstream ss(input);
-    string word;
-    while (ss >> word) tokens.push_back(word);
+    string current;
+    bool inQuotes = false;
+
+    for (size_t i = 0; i < input.size(); i++) {
+        char c = input[i];
+        if (c == '"') {
+            // Si estamos fuera de comillas y el siguiente char es espacio o fin -> comilla suelta, ignorar
+            if (!inQuotes && (i+1 >= input.size() || input[i+1] == ' ')) {
+                // comilla suelta al final de token, ignorar
+                continue;
+            }
+            inQuotes = !inQuotes;
+            // No agregar la comilla al token
+        } else if (c == ' ' && !inQuotes) {
+            if (!current.empty()) {
+                tokens.push_back(current);
+                current.clear();
+            }
+        } else {
+            current += c;
+        }
+    }
+    if (!current.empty()) tokens.push_back(current);
     return tokens;
 }
 
-// Procesar un comando y retornar su salida
-string processCommand(const string& input) {
+string processCommand(const string& rawInput) {
+    if (rawInput.empty()) return "";
+
+    // Limpiar comentarios inline (# fuera de comillas)
+    string input;
+    bool inQ = false;
+    for (size_t i = 0; i < rawInput.size(); i++) {
+        if (rawInput[i] == '"') inQ = !inQ;
+        if (rawInput[i] == '#' && !inQ) break;
+        input += rawInput[i];
+    }
+    // Trim
+    while (!input.empty() && input.back() == ' ') input.pop_back();
     if (input.empty()) return "";
 
     vector<string> args = splitArgs(input);
@@ -71,38 +103,23 @@ string processCommand(const string& input) {
 
     return captureOutput([&]() {
 
-        // Ejecutar comando mkdisk
+        // ================== MKDISK ==================
         if (command == "mkdisk") {
             int size = -1; char unit = 'M';
             string fit = "FF", path = "";
+            bool hasUnknown = false;
             for (int i = 1; i < (int)args.size(); i++) {
                 string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-size=") == 0) size = stoi(p.substr(6));
+                if      (lower.find("-size=") == 0) size = stoi(p.substr(6));
                 else if (lower.find("-unit=") == 0) unit = toupper(p.substr(6)[0]);
-                else if (lower.find("-fit=") == 0) { fit = p.substr(5); transform(fit.begin(), fit.end(), fit.begin(), ::toupper); }
-                else if (lower.find("-path=") == 0) path = p.substr(6);
+                else if (lower.find("-fit=")  == 0) { fit = p.substr(5); transform(fit.begin(), fit.end(), fit.begin(), ::toupper); }
+                else if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+                else hasUnknown = true;
             }
+            if (hasUnknown) { cout << "ERROR: Parámetros inválidos\n"; return; }
             if (size <= 0 || path.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
             MkDisk mk; mk.execute(size, unit, fit, path);
-        }
-
-        // ================== FDISK ==================
-        else if (command == "fdisk") {
-            int size = -1; char unit = 'K', type = 'P';
-            string fit = "WF", path = "", name = "";
-            for (int i = 1; i < (int)args.size(); i++) {
-                string p = args[i], lower = p;
-                transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-size=") == 0) size = stoi(p.substr(6));
-                else if (lower.find("-unit=") == 0) unit = toupper(p.substr(6)[0]);
-                else if (lower.find("-path=") == 0) path = p.substr(6);
-                else if (lower.find("-type=") == 0) type = toupper(p.substr(6)[0]);
-                else if (lower.find("-fit=") == 0) { fit = p.substr(5); transform(fit.begin(), fit.end(), fit.begin(), ::toupper); }
-                else if (lower.find("-name=") == 0) name = p.substr(6);
-            }
-            if (size <= 0 || path.empty() || name.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
-            FDisk fd; fd.execute(size, unit, path, type, fit, name);
         }
 
         // ================== RMDISK ==================
@@ -111,19 +128,41 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string lower = args[i];
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-path=") == 0) path = args[i].substr(6);
+                if (lower.find("-path=") == 0) path = stripQuotes(args[i].substr(6));
             }
             if (path.empty()) { cout << "ERROR: -path es obligatorio\n"; return; }
             RmDisk rm; rm.execute(path);
         }
 
-        // ================== MOUNT ==================
-        else if (command == "mount") {
-            if (args.size() == 1) { MountManager::showMounted(); return; }
+        // ================== FDISK ==================
+        else if (command == "fdisk") {
+            int size = -1; char unit = 'B', type = 'P';
+            string fit = "WF", path = "", name = "";
+            for (int i = 1; i < (int)args.size(); i++) {
+                string p = args[i], lower = p;
+                transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                if      (lower.find("-size=") == 0) size = stoi(p.substr(6));
+                else if (lower.find("-unit=") == 0) unit = toupper(p.substr(6)[0]);
+                else if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+                else if (lower.find("-type=") == 0) type = toupper(p.substr(6)[0]);
+                else if (lower.find("-fit=")  == 0) { fit = p.substr(5); transform(fit.begin(), fit.end(), fit.begin(), ::toupper); }
+                else if (lower.find("-name=") == 0) name = stripQuotes(p.substr(6));
+            }
+            if (size <= 0 || path.empty() || name.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
+            FDisk fd; fd.execute(size, unit, path, type, fit, name);
+        }
+
+        // ================== MOUNT / MOUNTED ==================
+        else if (command == "mount" || command == "mounted") {
+            if (command == "mounted" || args.size() == 1) {
+                MountManager::showMounted(); return;
+            }
             string path = "", name = "";
             for (int i = 1; i < (int)args.size(); i++) {
-                if (args[i].find("-path=") == 0) path = args[i].substr(6);
-                else if (args[i].find("-name=") == 0) name = args[i].substr(6);
+                string p = args[i], lower = p;
+                transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+                else if (lower.find("-name=") == 0) name = stripQuotes(p.substr(6));
             }
             if (path.empty() || name.empty()) { cout << "ERROR: -path y -name son obligatorios\n"; return; }
             Mount m; m.execute(path, name);
@@ -133,9 +172,9 @@ string processCommand(const string& input) {
         else if (command == "mkfs") {
             string id = "", type = "full";
             for (int i = 1; i < (int)args.size(); i++) {
-                string lower = args[i];
+                string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-id=") == 0) id = args[i].substr(4);
+                if (lower.find("-id=")   == 0) id   = p.substr(4);
                 else if (lower.find("-type=") == 0) type = lower.substr(6);
             }
             if (id.empty()) { cout << "ERROR: -id es obligatorio\n"; return; }
@@ -148,9 +187,9 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-user=") == 0) user = p.substr(6);
-                else if (lower.find("-pass=") == 0) pass = p.substr(6);
-                else if (lower.find("-id=") == 0) id = p.substr(4);
+                if      (lower.find("-user=") == 0) user = stripQuotes(p.substr(6));
+                else if (lower.find("-pass=") == 0) pass = stripQuotes(p.substr(6));
+                else if (lower.find("-id=")   == 0) id   = p.substr(4);
             }
             if (user.empty() || pass.empty() || id.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
             Login l; l.execute(user, pass, id);
@@ -167,7 +206,7 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string lower = args[i];
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-name=") == 0) name = args[i].substr(6);
+                if (lower.find("-name=") == 0) name = stripQuotes(args[i].substr(6));
             }
             if (name.empty()) { cout << "ERROR: -name es obligatorio\n"; return; }
             MkGrp mg; mg.execute(name);
@@ -179,7 +218,7 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string lower = args[i];
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-name=") == 0) name = args[i].substr(6);
+                if (lower.find("-name=") == 0) name = stripQuotes(args[i].substr(6));
             }
             if (name.empty()) { cout << "ERROR: -name es obligatorio\n"; return; }
             RmGrp rg; rg.execute(name);
@@ -191,11 +230,13 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-user=") == 0) user = p.substr(6);
-                else if (lower.find("-pass=") == 0) pass = p.substr(6);
-                else if (lower.find("-grp=") == 0) grp = p.substr(5);
+                if      (lower.find("-user=") == 0) user = stripQuotes(p.substr(6));
+                else if (lower.find("-pass=") == 0) pass = stripQuotes(p.substr(6));
+                else if (lower.find("-grp=")  == 0) grp  = stripQuotes(p.substr(5));
             }
-            if (user.empty() || pass.empty() || grp.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
+            if (user.empty() || pass.empty() || grp.empty()) {
+                cout << "ERROR: -user, -pass y -grp son obligatorios\n"; return;
+            }
             MkUsr mu; mu.execute(user, pass, grp);
         }
 
@@ -205,7 +246,7 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string lower = args[i];
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-user=") == 0) user = args[i].substr(6);
+                if (lower.find("-user=") == 0) user = stripQuotes(args[i].substr(6));
             }
             if (user.empty()) { cout << "ERROR: -user es obligatorio\n"; return; }
             RmUsr ru; ru.execute(user);
@@ -217,8 +258,8 @@ string processCommand(const string& input) {
             for (int i = 1; i < (int)args.size(); i++) {
                 string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-user=") == 0) user = p.substr(6);
-                else if (lower.find("-grp=") == 0) grp = p.substr(5);
+                if      (lower.find("-user=") == 0) user = stripQuotes(p.substr(6));
+                else if (lower.find("-grp=")  == 0) grp  = stripQuotes(p.substr(5));
             }
             if (user.empty() || grp.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
             ChGrp cg; cg.execute(user, grp);
@@ -228,26 +269,37 @@ string processCommand(const string& input) {
         else if (command == "mkdir") {
             string path = ""; bool createParents = false;
             for (int i = 1; i < (int)args.size(); i++) {
-                string lower = args[i];
+                string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
                 if (lower == "-p") createParents = true;
-                else if (lower.find("-path=") == 0) path = args[i].substr(6);
+                else if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
             }
             if (path.empty()) { cout << "ERROR: -path es obligatorio\n"; return; }
-            MkdirCmd md; md.execute(path, createParents);
+            // Validar que el path sea válido (no solo backslash)
+            if (path == "\\" || path == "/") {
+                MkdirCmd md; md.execute(path, createParents);
+            } else {
+                MkdirCmd md; md.execute(path, createParents);
+            }
         }
 
         // ================== MKFILE ==================
         else if (command == "mkfile") {
             string path = "", cont = ""; int size = 0; bool r = false;
+            bool sizeNeg = false;
             for (int i = 1; i < (int)args.size(); i++) {
                 string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
                 if (lower == "-r") r = true;
-                else if (lower.find("-path=") == 0) path = p.substr(6);
-                else if (lower.find("-size=") == 0) size = stoi(p.substr(6));
-                else if (lower.find("-cont=") == 0) cont = p.substr(6);
+                else if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+                else if (lower.find("-size=") == 0) {
+                    int s = stoi(p.substr(6));
+                    if (s < 0) { sizeNeg = true; }
+                    else size = s;
+                }
+                else if (lower.find("-cont=") == 0) cont = stripQuotes(p.substr(6));
             }
+            if (sizeNeg) { cout << "ERROR: -size no puede ser negativo\n"; return; }
             if (path.empty()) { cout << "ERROR: -path es obligatorio\n"; return; }
             MkfileCmd mf; mf.execute(path, r, size, cont);
         }
@@ -261,9 +313,7 @@ string processCommand(const string& input) {
                 if (lower.find("-file") == 0) {
                     size_t eq = p.find('=');
                     if (eq != string::npos) {
-                        string fp = p.substr(eq + 1);
-                        if (!fp.empty() && fp.front() == '"') fp.erase(0,1);
-                        if (!fp.empty() && fp.back() == '"') fp.pop_back();
+                        string fp = stripQuotes(p.substr(eq + 1));
                         files.push_back(fp);
                     }
                 }
@@ -272,18 +322,29 @@ string processCommand(const string& input) {
             CatCmd cat; cat.execute(files);
         }
 
-        // ================== REP ==================
+      // ================== REP ==================
         else if (command == "rep") {
             string name = "", path = "", id = "", pathFileLs = "";
             for (int i = 1; i < (int)args.size(); i++) {
                 string p = args[i], lower = p;
                 transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-                if (lower.find("-name=") == 0) name = lower.substr(6);
-                else if (lower.find("-path_file_ls=") == 0) pathFileLs = p.substr(14);
-                else if (lower.find("-path=") == 0) path = p.substr(6);
-                else if (lower.find("-id=") == 0) id = p.substr(4);
+                // Limpiar comillas sueltas en cualquier posición
+                string val = p;
+                // Remover comillas de apertura o cierre sueltas
+                while (!val.empty() && val.back() == '"') val.pop_back();
+                while (!val.empty() && val.front() == '"') val.erase(0,1);
+                string lval = lower;
+                while (!lval.empty() && lval.back() == '"') lval.pop_back();
+                while (!lval.empty() && lval.front() == '"') lval.erase(0,1);
+
+                if      (lval.find("-name=") == 0)         name       = lval.substr(6);
+                else if (lval.find("-path_file_ls=") == 0) pathFileLs = val.substr(14);
+                else if (lval.find("-path=") == 0)         path       = val.substr(6);
+                else if (lval.find("-id=") == 0)           id         = val.substr(4);
             }
-            if (name.empty() || path.empty() || id.empty()) { cout << "ERROR: Parámetros inválidos\n"; return; }
+            if (name.empty() || path.empty() || id.empty()) {
+                cout << "ERROR: -name, -path e -id son obligatorios\n"; return;
+            }
             RepCmd rep; rep.execute(name, path, id, pathFileLs);
         }
 
@@ -296,7 +357,6 @@ string processCommand(const string& input) {
 void startServer(int port) {
     Server svr;
 
-    // ===== CORS =====
     svr.set_pre_routing_handler([](const Request& req, Response& res) {
         res.set_header("Access-Control-Allow-Origin", "*");
         res.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -308,86 +368,103 @@ void startServer(int port) {
         return Server::HandlerResponse::Unhandled;
     });
 
-    // ===== GET /status =====
     svr.Get("/status", [](const Request&, Response& res) {
         res.set_content("{\"status\":\"ok\"}", "application/json");
     });
 
-    // ===== POST /command =====
     svr.Post("/command", [](const Request& req, Response& res) {
-        // Parsear JSON simple
         string body = req.body;
         string command = "";
-
-        // Buscar "command":"..."
+        // Extraer valor de "command" respetando \" escapadas
+        
         size_t pos = body.find("\"command\"");
         if (pos != string::npos) {
             size_t start = body.find("\"", pos + 9);
             if (start != string::npos) {
-                start++;
-                size_t end = body.find("\"", start);
-                if (end != string::npos) {
-                    command = body.substr(start, end - start);
+                start++; // saltar la comilla de apertura
+                string raw;
+                bool escaped = false;
+                for (size_t i = start; i < body.size(); i++) {
+                    if (escaped) {
+                        raw += body[i];
+                        escaped = false;
+                    } else if (body[i] == '\\') {
+                        raw += body[i];
+                        escaped = true;
+                    } else if (body[i] == '"') {
+                        break; // comilla de cierre real
+                    } else {
+                        raw += body[i];
+                    }
                 }
+                command = raw;
             }
         }
-
         if (command.empty()) {
             res.status = 400;
             res.set_content("{\"error\":\"Comando vacío\"}", "application/json");
             return;
         }
 
-        // Procesar línea por línea si hay múltiples comandos
+       // Desencode escapes del JSON: \n -> newline, \" -> ", \\ -> backslash
+        string decoded;
+        for (size_t i = 0; i < command.size(); i++) {
+            if (command[i] == '\\' && i+1 < command.size()) {
+                char next = command[i+1];
+                if      (next == 'n')  { decoded += '\n'; i++; }
+                else if (next == '"')  { decoded += '"';  i++; }
+                else if (next == '\\') { decoded += '\\'; i++; }
+                else if (next == 't')  { decoded += '\t'; i++; }
+                else if (next == 'r')  { decoded += '\r'; i++; }
+                else { decoded += command[i]; }
+            } else {
+                decoded += command[i];
+            }
+        }
+
         string fullOutput = "";
-        istringstream ss(command);
+        istringstream ss(decoded);
         string line;
         while (getline(ss, line)) {
+            // Trim
+            while (!line.empty() && line.back() == '\r') line.pop_back();
             if (line.empty() || line[0] == '#') continue;
             string out = processCommand(line);
             if (!out.empty()) fullOutput += out;
         }
 
-        // Escapar output para JSON
         string escaped = "";
         for (char c : fullOutput) {
-            if (c == '"') escaped += "\\\"";
+            if      (c == '"')  escaped += "\\\"";
             else if (c == '\\') escaped += "\\\\";
             else if (c == '\n') escaped += "\\n";
             else if (c == '\r') escaped += "\\r";
             else escaped += c;
         }
 
-        string json = "{\"output\":\"" + escaped + "\"}";
-        res.set_content(json, "application/json");
+        res.set_content("{\"output\":\"" + escaped + "\"}", "application/json");
     });
 
-    // ===== GET /report?path=/ruta/archivo.jpg =====
     svr.Get("/report", [](const Request& req, Response& res) {
         if (!req.has_param("path")) {
             res.status = 400;
             res.set_content("{\"error\":\"path requerido\"}", "application/json");
             return;
         }
-
         string filePath = req.get_param_value("path");
-
         ifstream file(filePath, ios::binary);
         if (!file.is_open()) {
             res.status = 404;
             res.set_content("{\"error\":\"Archivo no encontrado\"}", "application/json");
             return;
         }
-
         string ext = filesystem::path(filePath).extension().string();
         string contentType = "application/octet-stream";
         if (ext == ".jpg" || ext == ".jpeg") contentType = "image/jpeg";
         else if (ext == ".png") contentType = "image/png";
         else if (ext == ".txt") contentType = "text/plain";
         else if (ext == ".pdf") contentType = "application/pdf";
-
-        string content((istreambuf_iterator<char>(file)),
-                        istreambuf_iterator<char>());
+        string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
         res.set_content(content, contentType.c_str());
     });
 
