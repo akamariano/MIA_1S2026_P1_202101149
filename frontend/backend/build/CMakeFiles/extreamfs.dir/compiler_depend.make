@@ -3445,7 +3445,9 @@ CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.o: ../core/filesystem/e
   /usr/include/c++/11/bits/basic_ios.tcc \
   /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/istream \
-  /usr/include/c++/11/bits/istream.tcc
+  /usr/include/c++/11/bits/istream.tcc \
+  ../core/filesystem/permissions.h \
+  ../core/filesystem/session_manager.h
 
 CMakeFiles/extreamfs.dir/core/filesystem/login.cpp.o: ../core/filesystem/login.cpp \
   /usr/include/stdc-predef.h \

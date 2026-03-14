@@ -160,4 +160,6 @@ CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.o: \
  /usr/include/c++/11/bits/locale_facets.tcc \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc
+ /usr/include/c++/11/bits/istream.tcc \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/../filesystem/permissions.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/include/../core/filesystem/session_manager.h

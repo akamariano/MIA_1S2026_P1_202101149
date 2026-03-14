@@ -6,7 +6,8 @@
 class ReportFile {
 public:
     static void generate(FILE* disk, MountedPartition* part,
-                         const std::string& outPath,
-                         const std::string& filePath);
+                     const std::string& outPath,
+                     const std::string& filePath,
+                     const std::string& extension = ".txt");
 };
 #endif

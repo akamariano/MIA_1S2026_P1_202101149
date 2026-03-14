@@ -5,11 +5,14 @@
 #include "../core/filesystem/Inode.h"
 #include "../core/filesystem/Blocks.h"
 #include <iostream>
+#include <sstream>
 #include <cstring>
+#include <algorithm>
 using namespace std;
 
 void ReportFile::generate(FILE* disk, MountedPartition* part,
-                           const string& outPath, const string& filePath) {
+                           const string& outPath, const string& filePath,
+                           const string& extension) {
     if (filePath.empty()) {
         cout << "ERROR: -path_file_ls es obligatorio para reporte file\n";
         return;
@@ -32,10 +35,7 @@ void ReportFile::generate(FILE* disk, MountedPartition* part,
         return;
     }
 
-    // Leer contenido
-    string content = "Archivo: " + filePath + "\n";
-    content += string(40, '-') + "\n";
-
+    // Leer contenido del archivo (bloques directos)
     string fileContent;
     for (int b = 0; b < 12; b++) {
         if (inode.i_block[b] == -1) break;
@@ -48,6 +48,47 @@ void ReportFile::generate(FILE* disk, MountedPartition* part,
         fileContent.append(fb.b_content, toRead);
     }
 
-    content += fileContent + "\n";
-    writeTxt(content, outPath);
+    // Detectar extensión del outPath
+    string ext = extension;
+    if (ext.empty()) {
+        size_t dot = outPath.rfind('.');
+        if (dot != string::npos) {
+            ext = outPath.substr(dot);
+            transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+        }
+    }
+
+    if (ext == ".txt") {
+        // Generar archivo de texto plano con solo el contenido
+        writeTxt(fileContent, outPath);
+    } else {
+        // Renderizar como imagen con Graphviz (.jpg, .png, etc.)
+        string escaped;
+        for (char c : fileContent) {
+            if      (c == '<')  escaped += "&lt;";
+            else if (c == '>')  escaped += "&gt;";
+            else if (c == '&')  escaped += "&amp;";
+            else if (c == '"')  escaped += "&quot;";
+            else if (c == '\n') escaped += "<BR/>";
+            else                escaped += c;
+        }
+
+        ostringstream dot;
+        dot << "digraph FILE {\n";
+        dot << "  node [shape=plaintext fontname=\"Courier\"]\n\n";
+        dot << "  file [label=<\n";
+        dot << "    <TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" CELLPADDING=\"8\">\n";
+        dot << "      <TR><TD BGCOLOR=\"#1A5276\" ALIGN=\"CENTER\">"
+            << "<FONT COLOR=\"white\"><B>" << filePath << "</B></FONT>"
+            << "</TD></TR>\n";
+        dot << "      <TR><TD BGCOLOR=\"#FDFEFE\" ALIGN=\"LEFT\">"
+            << "<FONT FACE=\"Courier\">" << escaped << "</FONT>"
+            << "</TD></TR>\n";
+        dot << "    </TABLE>>];\n";
+        dot << "}\n";
+
+        renderDot(dot.str(), outPath);
+    }
+
+    cout << "OK: Reporte generado en " << outPath << "\n";
 }

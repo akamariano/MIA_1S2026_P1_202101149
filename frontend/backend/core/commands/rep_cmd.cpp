@@ -11,6 +11,7 @@
 #include "../mount/mount_manager.h"
 #include <iostream>
 #include <filesystem>
+#include <algorithm>
 using namespace std;
 
 void RepCmd::execute(const string& name, const string& path,
@@ -38,7 +39,15 @@ void RepCmd::execute(const string& name, const string& path,
     else if (name == "tree")     ReportTree::generate(disk, part, path);
     else if (name == "bm_inode") ReportBm::generateInodeBitmap(disk, part, path);
     else if (name == "bm_block") ReportBm::generateBlockBitmap(disk, part, path);
-    else if (name == "file")     ReportFile::generate(disk, part, path, pathFileLs);
+    else if (name == "file") {
+        // Detectar extensión para decidir formato
+        string ext = path;
+        transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+        string extension = "";
+        size_t dot = ext.rfind('.');
+        if (dot != string::npos) extension = ext.substr(dot);
+        ReportFile::generate(disk, part, path, pathFileLs, extension);
+    } // si es .txt hace un text y si es .jpg lo renderizara por un graphviz
     else if (name == "ls")       ReportLs::generate(disk, part, path, pathFileLs);
     else cout << "ERROR: Reporte '" << name << "' no reconocido\n";
 

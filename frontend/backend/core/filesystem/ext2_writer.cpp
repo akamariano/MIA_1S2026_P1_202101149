@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <ctime>
-
+#include "../filesystem/permissions.h"
 using namespace std;
 
 // Crear una carpeta y registrarla en el directorio padre
@@ -179,7 +179,15 @@ bool EXT2Writer::mkdir(FILE* disk, SuperBlock& sb, long long partStart,
             cout << "       Use -p para crear carpetas padres\n";
             return false;
         }
-
+           // Verificar permiso de escritura en carpeta padre (solo si hay sesión activa)
+        if (isLast && SessionManager::isActive()) {
+            Inode parentInodeCheck;
+            readInode(disk, sb, currentInode, parentInodeCheck);
+            if (!Permissions::canWrite(parentInodeCheck)) {
+                cout << "ERROR: No tiene permiso de escritura en la carpeta padre\n";
+                return false;
+            }
+        }
         // Crear la carpeta
         int newInode = createDirectory(disk, sb, partStart,
                                        currentInode, parts[i],
@@ -237,7 +245,15 @@ bool EXT2Writer::mkfile(FILE* disk, SuperBlock& sb, long long partStart,
             currentInode = found;
         }
     }
-
+        // Verificar permiso de escritura en carpeta padre (solo si hay sesión activa)
+    if (SessionManager::isActive()) {
+        Inode parentInodeCheck;
+        readInode(disk, sb, currentInode, parentInodeCheck);
+        if (!Permissions::canWrite(parentInodeCheck)) {
+            cout << "ERROR: No tiene permiso de escritura en la carpeta padre\n";
+            return false;
+        }
+    }
     // Verificar si el archivo ya existe
         int existingFile = findInDirectory(disk, sb, currentInode, filename);
 if (existingFile != -1) {

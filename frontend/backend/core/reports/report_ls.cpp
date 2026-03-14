@@ -149,7 +149,8 @@ void ReportLs::generate(FILE* disk, MountedPartition* part,
 
             string typeStr = (child.i_type == '0') ? "Carpeta" : "Archivo";
             string bgColor = (child.i_type == '0') ? "#D6EAF8" : "#D5F5E3";
-            string permStr = fmtPerm(child.i_perm);
+            string typePrefix = (child.i_type == '0') ? "d" : "-";
+            string permStr = typePrefix + fmtPerm(child.i_perm);//linux sheet implementado fix
             auto [fecha, hora] = fmtDate(child.i_ctime);
 
             // Obtener nombres reales del propietario y grupo usando los mapas

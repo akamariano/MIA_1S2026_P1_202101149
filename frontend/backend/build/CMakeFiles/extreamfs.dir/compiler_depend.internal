@@ -3463,6 +3463,8 @@ CMakeFiles/extreamfs.dir/core/filesystem/ext2_writer.cpp.o
  /usr/include/c++/11/bits/ostream.tcc
  /usr/include/c++/11/istream
  /usr/include/c++/11/bits/istream.tcc
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/permissions.h
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/session_manager.h
 
 CMakeFiles/extreamfs.dir/core/filesystem/login.cpp.o
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/filesystem/login.cpp
