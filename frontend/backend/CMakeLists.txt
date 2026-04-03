@@ -47,6 +47,15 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/core/reports/report_tree.cpp
     ${PROJECT_SOURCE_DIR}/core/reports/report_ls.cpp
     ${PROJECT_SOURCE_DIR}/core/server/server.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/rename_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/remove_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/copy_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/move_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/find_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/chown_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/chmod_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/journaling_cmd.cpp
+    ${PROJECT_SOURCE_DIR}/core/commands/loss_cmd.cpp
 )
 
 add_executable(extreamfs ${SOURCES})

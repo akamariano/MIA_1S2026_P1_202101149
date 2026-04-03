@@ -31,7 +31,15 @@ using namespace httplib;
 #include "../filesystem/login.h"
 #include "../filesystem/logout.h"
 #include "../filesystem/session_manager.h"
-
+#include "../commands/remove_cmd.h"
+#include "../commands/rename_cmd.h"
+#include "../commands/copy_cmd.h"
+#include "../commands/move_cmd.h"
+#include "../commands/find_cmd.h"
+#include "../commands/chown_cmd.h"
+#include "../commands/chmod_cmd.h"
+#include "../commands/journaling_cmd.h"
+#include "../commands/loss_cmd.h"
 #include <algorithm>
 
 string captureOutput(function<void()> fn) {
@@ -178,7 +186,10 @@ string processCommand(const string& rawInput) {
                 else if (lower.find("-type=") == 0) type = lower.substr(6);
             }
             if (id.empty()) { cout << "ERROR: -id es obligatorio\n"; return; }
-            Mkfs mkfs; mkfs.execute(id);
+            if (type != "full" && type != "ext3") {
+                cout << "ERROR: -type debe ser 'full' (EXT2) o 'ext3'\n"; return;
+            }
+            Mkfs mkfs; mkfs.execute(id, type);
         }
 
         // ================== LOGIN ==================
@@ -347,7 +358,127 @@ string processCommand(const string& rawInput) {
             }
             RepCmd rep; rep.execute(name, path, id, pathFileLs);
         }
+                // ================== REMOVE ==================
+        else if (command == "remove") {
+            string path = "";
+            for (int i = 1; i < (int)args.size(); i++) {
+                string p = args[i], lower = p;
+                transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+            }
+            if (path.empty()) { cout << "ERROR: -path es obligatorio\n"; return; }
+            RemoveCmd rm; rm.execute(path);
+        }
+        // RENAME
+else if (command == "rename") {
+    string path = "", name = "";
+    for (int i = 1; i < (int)args.size(); i++) {
+        string p = args[i], lower = p;
+        transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+        if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+        else if (lower.find("-name=") == 0) name = stripQuotes(p.substr(6));
+    }
+    if (path.empty() || name.empty()) {
+        cout << "ERROR: -path y -name son obligatorios\n"; return;
+    }
+    RenameCmd rc; rc.execute(path, name);
+}
+        //COPY
+        else if (command == "copy") {
+            string path = "", destino = "";
+            for (int i = 1; i < (int)args.size(); i++) {
+                string p = args[i], lower = p;
+                transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                if (lower.find("-path=") == 0)    path    = stripQuotes(p.substr(6));
+                else if (lower.find("-destino=") == 0) destino = stripQuotes(p.substr(9));
+            }
+            if (path.empty() || destino.empty()) {
+                cout << "ERROR: -path y -destino son obligatorios\n"; return;
+            }
+            CopyCmd cc; cc.execute(path, destino);
+        }
+        //MOVE
+                else if (command == "move") {
+            string path = "", destino = "";
+            for (int i = 1; i < (int)args.size(); i++) {
+                string p = args[i], lower = p;
+                transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                if (lower.find("-path=") == 0)         path    = stripQuotes(p.substr(6));
+                else if (lower.find("-destino=") == 0) destino = stripQuotes(p.substr(9));
+            }
+            if (path.empty() || destino.empty()) {
+                cout << "ERROR: -path y -destino son obligatorios\n"; return;
+            }
+            MoveCmd mc; mc.execute(path, destino);
+        }
+        //FIND
+        else if (command == "find") {
+    string path = "", name = "";
+    for (int i = 1; i < (int)args.size(); i++) {
+        string p = args[i], lower = p;
+        transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+        if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+        else if (lower.find("-name=") == 0) name = stripQuotes(p.substr(6));
+    }
+    if (path.empty() || name.empty()) {
+        cout << "ERROR: -path y -name son obligatorios\n"; return;
+    }
+    FindCmd fc; fc.execute(path, name);
+}
+// CHOWN
+else if (command == "chown") {
+    string path = "", usuario = ""; bool r = false;
+    for (int i = 1; i < (int)args.size(); i++) {
+        string p = args[i], lower = p;
+        transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+        if (lower == "-r") r = true;
+        else if (lower.find("-path=") == 0)    path    = stripQuotes(p.substr(6));
+        else if (lower.find("-usuario=") == 0) usuario = stripQuotes(p.substr(9));
+    }
+    if (path.empty() || usuario.empty()) {
+        cout << "ERROR: -path y -usuario son obligatorios\n"; return;
+    }
+    ChownCmd cc; cc.execute(path, usuario, r);
+}
 
+// CHMOD
+else if (command == "chmod") {
+    string path = "", ugo = ""; bool r = false;
+    for (int i = 1; i < (int)args.size(); i++) {
+        string p = args[i], lower = p;
+        transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+        if (lower == "-r") r = true;
+        else if (lower.find("-path=") == 0) path = stripQuotes(p.substr(6));
+        else if (lower.find("-ugo=") == 0)  ugo  = p.substr(5);
+    }
+    if (path.empty() || ugo.empty()) {
+        cout << "ERROR: -path y -ugo son obligatorios\n"; return;
+    }
+    ChmodCmd cm; cm.execute(path, ugo, r);
+}
+// LOSS
+else if (command == "loss") {
+    string id = "";
+    for (int i = 1; i < (int)args.size(); i++) {
+        string p = args[i], lower = p;
+        transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+        if (lower.find("-id=") == 0) id = p.substr(4);
+    }
+    if (id.empty()) { cout << "ERROR: -id es obligatorio\n"; return; }
+    LossCmd lc; lc.execute(id);
+}
+
+// JOURNALING
+else if (command == "journaling") {
+    string id = "";
+    for (int i = 1; i < (int)args.size(); i++) {
+        string p = args[i], lower = p;
+        transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+        if (lower.find("-id=") == 0) id = p.substr(4);
+    }
+    if (id.empty()) { cout << "ERROR: -id es obligatorio\n"; return; }
+    JournalingCmd jc; jc.execute(id);
+}
         else {
             cout << "ERROR: Comando '" << command << "' no reconocido\n";
         }

@@ -177,6 +177,78 @@ core/commands/chgrp.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chgrp.cpp.s
 .PHONY : core/commands/chgrp.cpp.s
 
+core/commands/chmod_cmd.o: core/commands/chmod_cmd.cpp.o
+.PHONY : core/commands/chmod_cmd.o
+
+# target to build an object file
+core/commands/chmod_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chmod_cmd.cpp.o
+.PHONY : core/commands/chmod_cmd.cpp.o
+
+core/commands/chmod_cmd.i: core/commands/chmod_cmd.cpp.i
+.PHONY : core/commands/chmod_cmd.i
+
+# target to preprocess a source file
+core/commands/chmod_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chmod_cmd.cpp.i
+.PHONY : core/commands/chmod_cmd.cpp.i
+
+core/commands/chmod_cmd.s: core/commands/chmod_cmd.cpp.s
+.PHONY : core/commands/chmod_cmd.s
+
+# target to generate assembly for a file
+core/commands/chmod_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chmod_cmd.cpp.s
+.PHONY : core/commands/chmod_cmd.cpp.s
+
+core/commands/chown_cmd.o: core/commands/chown_cmd.cpp.o
+.PHONY : core/commands/chown_cmd.o
+
+# target to build an object file
+core/commands/chown_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chown_cmd.cpp.o
+.PHONY : core/commands/chown_cmd.cpp.o
+
+core/commands/chown_cmd.i: core/commands/chown_cmd.cpp.i
+.PHONY : core/commands/chown_cmd.i
+
+# target to preprocess a source file
+core/commands/chown_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chown_cmd.cpp.i
+.PHONY : core/commands/chown_cmd.cpp.i
+
+core/commands/chown_cmd.s: core/commands/chown_cmd.cpp.s
+.PHONY : core/commands/chown_cmd.s
+
+# target to generate assembly for a file
+core/commands/chown_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/chown_cmd.cpp.s
+.PHONY : core/commands/chown_cmd.cpp.s
+
+core/commands/copy_cmd.o: core/commands/copy_cmd.cpp.o
+.PHONY : core/commands/copy_cmd.o
+
+# target to build an object file
+core/commands/copy_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/copy_cmd.cpp.o
+.PHONY : core/commands/copy_cmd.cpp.o
+
+core/commands/copy_cmd.i: core/commands/copy_cmd.cpp.i
+.PHONY : core/commands/copy_cmd.i
+
+# target to preprocess a source file
+core/commands/copy_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/copy_cmd.cpp.i
+.PHONY : core/commands/copy_cmd.cpp.i
+
+core/commands/copy_cmd.s: core/commands/copy_cmd.cpp.s
+.PHONY : core/commands/copy_cmd.s
+
+# target to generate assembly for a file
+core/commands/copy_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/copy_cmd.cpp.s
+.PHONY : core/commands/copy_cmd.cpp.s
+
 core/commands/fdisk.o: core/commands/fdisk.cpp.o
 .PHONY : core/commands/fdisk.o
 
@@ -200,6 +272,78 @@ core/commands/fdisk.s: core/commands/fdisk.cpp.s
 core/commands/fdisk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/fdisk.cpp.s
 .PHONY : core/commands/fdisk.cpp.s
+
+core/commands/find_cmd.o: core/commands/find_cmd.cpp.o
+.PHONY : core/commands/find_cmd.o
+
+# target to build an object file
+core/commands/find_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/find_cmd.cpp.o
+.PHONY : core/commands/find_cmd.cpp.o
+
+core/commands/find_cmd.i: core/commands/find_cmd.cpp.i
+.PHONY : core/commands/find_cmd.i
+
+# target to preprocess a source file
+core/commands/find_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/find_cmd.cpp.i
+.PHONY : core/commands/find_cmd.cpp.i
+
+core/commands/find_cmd.s: core/commands/find_cmd.cpp.s
+.PHONY : core/commands/find_cmd.s
+
+# target to generate assembly for a file
+core/commands/find_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/find_cmd.cpp.s
+.PHONY : core/commands/find_cmd.cpp.s
+
+core/commands/journaling_cmd.o: core/commands/journaling_cmd.cpp.o
+.PHONY : core/commands/journaling_cmd.o
+
+# target to build an object file
+core/commands/journaling_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/journaling_cmd.cpp.o
+.PHONY : core/commands/journaling_cmd.cpp.o
+
+core/commands/journaling_cmd.i: core/commands/journaling_cmd.cpp.i
+.PHONY : core/commands/journaling_cmd.i
+
+# target to preprocess a source file
+core/commands/journaling_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/journaling_cmd.cpp.i
+.PHONY : core/commands/journaling_cmd.cpp.i
+
+core/commands/journaling_cmd.s: core/commands/journaling_cmd.cpp.s
+.PHONY : core/commands/journaling_cmd.s
+
+# target to generate assembly for a file
+core/commands/journaling_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/journaling_cmd.cpp.s
+.PHONY : core/commands/journaling_cmd.cpp.s
+
+core/commands/loss_cmd.o: core/commands/loss_cmd.cpp.o
+.PHONY : core/commands/loss_cmd.o
+
+# target to build an object file
+core/commands/loss_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/loss_cmd.cpp.o
+.PHONY : core/commands/loss_cmd.cpp.o
+
+core/commands/loss_cmd.i: core/commands/loss_cmd.cpp.i
+.PHONY : core/commands/loss_cmd.i
+
+# target to preprocess a source file
+core/commands/loss_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/loss_cmd.cpp.i
+.PHONY : core/commands/loss_cmd.cpp.i
+
+core/commands/loss_cmd.s: core/commands/loss_cmd.cpp.s
+.PHONY : core/commands/loss_cmd.s
+
+# target to generate assembly for a file
+core/commands/loss_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/loss_cmd.cpp.s
+.PHONY : core/commands/loss_cmd.cpp.s
 
 core/commands/mkdir_cmd.o: core/commands/mkdir_cmd.cpp.o
 .PHONY : core/commands/mkdir_cmd.o
@@ -368,6 +512,78 @@ core/commands/mount.s: core/commands/mount.cpp.s
 core/commands/mount.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/mount.cpp.s
 .PHONY : core/commands/mount.cpp.s
+
+core/commands/move_cmd.o: core/commands/move_cmd.cpp.o
+.PHONY : core/commands/move_cmd.o
+
+# target to build an object file
+core/commands/move_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/move_cmd.cpp.o
+.PHONY : core/commands/move_cmd.cpp.o
+
+core/commands/move_cmd.i: core/commands/move_cmd.cpp.i
+.PHONY : core/commands/move_cmd.i
+
+# target to preprocess a source file
+core/commands/move_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/move_cmd.cpp.i
+.PHONY : core/commands/move_cmd.cpp.i
+
+core/commands/move_cmd.s: core/commands/move_cmd.cpp.s
+.PHONY : core/commands/move_cmd.s
+
+# target to generate assembly for a file
+core/commands/move_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/move_cmd.cpp.s
+.PHONY : core/commands/move_cmd.cpp.s
+
+core/commands/remove_cmd.o: core/commands/remove_cmd.cpp.o
+.PHONY : core/commands/remove_cmd.o
+
+# target to build an object file
+core/commands/remove_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/remove_cmd.cpp.o
+.PHONY : core/commands/remove_cmd.cpp.o
+
+core/commands/remove_cmd.i: core/commands/remove_cmd.cpp.i
+.PHONY : core/commands/remove_cmd.i
+
+# target to preprocess a source file
+core/commands/remove_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/remove_cmd.cpp.i
+.PHONY : core/commands/remove_cmd.cpp.i
+
+core/commands/remove_cmd.s: core/commands/remove_cmd.cpp.s
+.PHONY : core/commands/remove_cmd.s
+
+# target to generate assembly for a file
+core/commands/remove_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/remove_cmd.cpp.s
+.PHONY : core/commands/remove_cmd.cpp.s
+
+core/commands/rename_cmd.o: core/commands/rename_cmd.cpp.o
+.PHONY : core/commands/rename_cmd.o
+
+# target to build an object file
+core/commands/rename_cmd.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rename_cmd.cpp.o
+.PHONY : core/commands/rename_cmd.cpp.o
+
+core/commands/rename_cmd.i: core/commands/rename_cmd.cpp.i
+.PHONY : core/commands/rename_cmd.i
+
+# target to preprocess a source file
+core/commands/rename_cmd.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rename_cmd.cpp.i
+.PHONY : core/commands/rename_cmd.cpp.i
+
+core/commands/rename_cmd.s: core/commands/rename_cmd.cpp.s
+.PHONY : core/commands/rename_cmd.s
+
+# target to generate assembly for a file
+core/commands/rename_cmd.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extreamfs.dir/build.make CMakeFiles/extreamfs.dir/core/commands/rename_cmd.cpp.s
+.PHONY : core/commands/rename_cmd.cpp.s
 
 core/commands/rep_cmd.o: core/commands/rep_cmd.cpp.o
 .PHONY : core/commands/rep_cmd.o
@@ -936,9 +1152,27 @@ help:
 	@echo "... core/commands/chgrp.o"
 	@echo "... core/commands/chgrp.i"
 	@echo "... core/commands/chgrp.s"
+	@echo "... core/commands/chmod_cmd.o"
+	@echo "... core/commands/chmod_cmd.i"
+	@echo "... core/commands/chmod_cmd.s"
+	@echo "... core/commands/chown_cmd.o"
+	@echo "... core/commands/chown_cmd.i"
+	@echo "... core/commands/chown_cmd.s"
+	@echo "... core/commands/copy_cmd.o"
+	@echo "... core/commands/copy_cmd.i"
+	@echo "... core/commands/copy_cmd.s"
 	@echo "... core/commands/fdisk.o"
 	@echo "... core/commands/fdisk.i"
 	@echo "... core/commands/fdisk.s"
+	@echo "... core/commands/find_cmd.o"
+	@echo "... core/commands/find_cmd.i"
+	@echo "... core/commands/find_cmd.s"
+	@echo "... core/commands/journaling_cmd.o"
+	@echo "... core/commands/journaling_cmd.i"
+	@echo "... core/commands/journaling_cmd.s"
+	@echo "... core/commands/loss_cmd.o"
+	@echo "... core/commands/loss_cmd.i"
+	@echo "... core/commands/loss_cmd.s"
 	@echo "... core/commands/mkdir_cmd.o"
 	@echo "... core/commands/mkdir_cmd.i"
 	@echo "... core/commands/mkdir_cmd.s"
@@ -960,6 +1194,15 @@ help:
 	@echo "... core/commands/mount.o"
 	@echo "... core/commands/mount.i"
 	@echo "... core/commands/mount.s"
+	@echo "... core/commands/move_cmd.o"
+	@echo "... core/commands/move_cmd.i"
+	@echo "... core/commands/move_cmd.s"
+	@echo "... core/commands/remove_cmd.o"
+	@echo "... core/commands/remove_cmd.i"
+	@echo "... core/commands/remove_cmd.s"
+	@echo "... core/commands/rename_cmd.o"
+	@echo "... core/commands/rename_cmd.i"
+	@echo "... core/commands/rename_cmd.s"
 	@echo "... core/commands/rep_cmd.o"
 	@echo "... core/commands/rep_cmd.i"
 	@echo "... core/commands/rep_cmd.s"

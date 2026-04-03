@@ -8,19 +8,18 @@
 #include "../core/filesystem/SuperBlock.h"
 #include "../core/filesystem/Inode.h"
 #include "../core/filesystem/Blocks.h"
+#include "../core/filesystem/Journal.h"
 #include "../core/filesystem/ext2_writer.h"
 using namespace std;
 
-void Mkfs::execute(string id) {
+void Mkfs::execute(string id, string type) {
 
-    // Obtener la partición montada con ese ID
     MountedPartition* part = MountManager::getMountedById(id);
     if (!part) {
         cout << "ERROR: ID no montado\n";
         return;
     }
 
-    // Abrir el archivo de disco para lectura/escritura
     FILE* file = fopen(part->path.c_str(), "rb+");
     if (!file) {
         cout << "ERROR: No se pudo abrir el disco\n";
@@ -30,39 +29,50 @@ void Mkfs::execute(string id) {
     long long partitionStart = part->start;
     long long partitionSize  = part->size;
 
-    // Calcular número de inodos usando la fórmula:
-    // n = (tamaño_partición - SB) / (1 + 3 + sizeof(Inode) + 3*sizeof(FileBlock))
-    double denominator = 1.0 + 3.0
-                       + (double)sizeof(Inode)
-                       + 3.0 * (double)sizeof(FileBlock);
+    bool isExt3 = (type == "ext3");
 
-    int n = (int)floor((partitionSize - (double)sizeof(SuperBlock)) / denominator);
+    int n = 0;
 
-    // Verificar que la partición sea lo suficientemente grande
+    if (isExt3) {
+        // Fórmula EXT3:
+        // tamaño = SB + n*sizeof(Journal) + n + 3n + n*sizeof(Inode) + 3n*sizeof(FileBlock)
+        double denom = (double)sizeof(Journal)
+                     + 1.0 + 3.0
+                     + (double)sizeof(Inode)
+                     + 3.0 * (double)sizeof(FileBlock);
+        n = (int)floor((partitionSize - (double)sizeof(SuperBlock)) / denom);
+    } else {
+        // Fórmula EXT2:
+        // tamaño = SB + n + 3n + n*sizeof(Inode) + 3n*sizeof(FileBlock)
+        double denom = 1.0 + 3.0
+                     + (double)sizeof(Inode)
+                     + 3.0 * (double)sizeof(FileBlock);
+        n = (int)floor((partitionSize - (double)sizeof(SuperBlock)) / denom);
+    }
+
     if (n <= 0) {
         cout << "ERROR: Partición demasiado pequeña\n";
         fclose(file);
         return;
     }
 
-    // Definir cantidades: n inodos, 3n bloques
-    int numInodes = n;
-    int numBlocks = 3 * n;
+    int numInodes  = n;
+    int numBlocks  = 3 * n;
+    int numJournal = isExt3 ? n : 0;
 
-    // Tamaños en bytes
-    int bytesInodeBitmap = numInodes;
-    int bytesBlockBitmap = numBlocks;
+    // Calcular posiciones
+    long long journal_start  = partitionStart + sizeof(SuperBlock);
+    long long bm_inode_start = isExt3
+                             ? journal_start + (long long)numJournal * sizeof(Journal)
+                             : journal_start;
+    long long bm_block_start = bm_inode_start + numInodes;
+    long long inode_start    = bm_block_start + numBlocks;
+    long long block_start    = inode_start + (long long)numInodes * sizeof(Inode);
 
-    // Calcular posiciones en disco
-    long long bm_inode_start = partitionStart + sizeof(SuperBlock);
-    long long bm_block_start = bm_inode_start + bytesInodeBitmap;
-    long long inode_start    = bm_block_start + bytesBlockBitmap;
-    long long block_start    = inode_start    + (long long)(numInodes * sizeof(Inode));
-
-    // Crear y configurar el SuperBloque
+    // Crear SuperBloque
     SuperBlock sb;
     memset(&sb, 0, sizeof(SuperBlock));
-    sb.s_filesystem_type   = 2;
+    sb.s_filesystem_type   = isExt3 ? 3 : 2;
     sb.s_inodes_count      = numInodes;
     sb.s_blocks_count      = numBlocks;
     sb.s_free_inodes_count = numInodes - 1;
@@ -80,13 +90,13 @@ void Mkfs::execute(string id) {
     sb.s_inode_start       = inode_start;
     sb.s_block_start       = block_start;
 
-    // Inicializar mapas de bits (todos los bits en 0 = libres)
-    vector<unsigned char> bm_inode(bytesInodeBitmap, 0);
-    vector<unsigned char> bm_block(bytesBlockBitmap, 0);
-    bm_inode[0] = 1;  // Inode 0 usado (root)
-    bm_block[0] = 1;  // Bloque 0 usado (contenido de root)
+    // Inicializar bitmaps
+    vector<unsigned char> bm_inode(numInodes, 0);
+    vector<unsigned char> bm_block(numBlocks, 0);
+    bm_inode[0] = 1;
+    bm_block[0] = 1;
 
-    // Crear el inode raíz
+    // Crear inode raíz
     Inode root;
     memset(&root, 0, sizeof(Inode));
     root.i_uid   = 1;
@@ -98,7 +108,7 @@ void Mkfs::execute(string id) {
     for (int i = 0; i < 15; i++) root.i_block[i] = -1;
     root.i_block[0] = 0;
 
-    // Crear bloque del directorio raíz con . y ..
+    // Crear bloque raíz
     DirectoryBlock rootBlock;
     memset(&rootBlock, 0, sizeof(DirectoryBlock));
     strncpy(rootBlock.b_content[0].b_name, ".",  11);
@@ -108,34 +118,50 @@ void Mkfs::execute(string id) {
     rootBlock.b_content[2].b_inodo = -1;
     rootBlock.b_content[3].b_inodo = -1;
 
-    // Escribir en disco comenzando en la partición
+    // Escribir SuperBloque
     fseek(file, partitionStart, SEEK_SET);
     fwrite(&sb, sizeof(SuperBlock), 1, file);
 
+    // Inicializar journals en 0 si es EXT3
+    if (isExt3) {
+        fseek(file, journal_start, SEEK_SET);
+        Journal emptyJournal;
+        memset(&emptyJournal, 0, sizeof(Journal));
+        for (int i = 0; i < numJournal; i++) {
+            fwrite(&emptyJournal, sizeof(Journal), 1, file);
+        }
+    }
+
+    // Escribir bitmaps
     fseek(file, bm_inode_start, SEEK_SET);
-    fwrite(bm_inode.data(), 1, bytesInodeBitmap, file);
+    fwrite(bm_inode.data(), 1, numInodes, file);
 
     fseek(file, bm_block_start, SEEK_SET);
-    fwrite(bm_block.data(), 1, bytesBlockBitmap, file);
+    fwrite(bm_block.data(), 1, numBlocks, file);
 
+    // Escribir inode raíz
     fseek(file, inode_start, SEEK_SET);
     fwrite(&root, sizeof(Inode), 1, file);
 
+    // Escribir bloque raíz
     fseek(file, block_start, SEEK_SET);
     fwrite(&rootBlock, sizeof(DirectoryBlock), 1, file);
 
-    // ===== CREAR USERS.TXT =====
+    // Crear users.txt
     EXT2Writer::createUsersFile(file, sb, partitionStart);
 
-    //UN SOLO fclose
     fclose(file);
 
-    cout << "OK: MKFS realizado correctamente\n";
-    cout << "    Inodos : " << numInodes << "\n";
-    cout << "    Bloques: " << numBlocks << "\n";
-    cout << "    Inicio superblock : " << partitionStart << "\n";
-    cout << "    Inicio bm_inodos  : " << bm_inode_start << "\n";
-    cout << "    Inicio bm_bloques : " << bm_block_start << "\n";
-    cout << "    Inicio inodos     : " << inode_start    << "\n";
-    cout << "    Inicio bloques    : " << block_start    << "\n";
+    cout << "OK: MKFS realizado correctamente (" << (isExt3 ? "EXT3" : "EXT2") << ")\n";
+    cout << "    Inodos  : " << numInodes << "\n";
+    cout << "    Bloques : " << numBlocks << "\n";
+    if (isExt3)
+        cout << "    Journals: " << numJournal << "\n";
+    cout << "    Inicio superblock : " << partitionStart  << "\n";
+    if (isExt3)
+        cout << "    Inicio journal    : " << journal_start   << "\n";
+    cout << "    Inicio bm_inodos  : " << bm_inode_start  << "\n";
+    cout << "    Inicio bm_bloques : " << bm_block_start  << "\n";
+    cout << "    Inicio inodos     : " << inode_start     << "\n";
+    cout << "    Inicio bloques    : " << block_start     << "\n";
 }

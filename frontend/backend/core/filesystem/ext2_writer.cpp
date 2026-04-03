@@ -4,6 +4,7 @@
 #include <cstring>
 #include <ctime>
 #include "../filesystem/permissions.h"
+#include "../filesystem/journal_manager.h"
 using namespace std;
 
 // Crear una carpeta y registrarla en el directorio padre
@@ -196,7 +197,7 @@ bool EXT2Writer::mkdir(FILE* disk, SuperBlock& sb, long long partStart,
 
         currentInode = newInode;
     }
-
+    JournalManager::write(disk, sb, partStart, "mkdir", path);
     cout << "OK: Carpeta '" << path << "' creada correctamente\n";
     return true;
 }
@@ -276,6 +277,7 @@ if (existingFile != -1) {
     }
     writeFileContent(disk, sb, partStart, existing, existingFile, finalContent);
     writeSuperBlock(disk, partStart, sb);
+    JournalManager::write(disk, sb, partStart, "mkfile", path, content);
     cout << "OK: Archivo '" << filename << "' sobreescrito\n";
     return true;
     }
@@ -322,7 +324,7 @@ if (existingFile != -1) {
         cout << "ERROR: No se pudo registrar el archivo en la carpeta padre\n";
         return false;
     }
-
+    JournalManager::write(disk, sb, partStart, "mkfile", path, finalContent);
     writeSuperBlock(disk, partStart, sb);
     cout << "OK: Archivo '" << path << "' creado correctamente\n";
     return true;
@@ -400,4 +402,11 @@ string EXT2Writer::readUsersFile(FILE* disk, SuperBlock& sb,
     }
 
     return result;
+}
+int EXT2Writer::createDirPublic(FILE* disk, SuperBlock& sb,
+                                 long long partStart,
+                                 int parentInode,
+                                 const string& name,
+                                 int uid, int gid) {
+    return createDirectory(disk, sb, partStart, parentInode, name, uid, gid);
 }

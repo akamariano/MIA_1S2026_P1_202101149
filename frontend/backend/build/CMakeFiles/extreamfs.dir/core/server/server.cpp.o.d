@@ -355,4 +355,13 @@ CMakeFiles/extreamfs.dir/core/server/server.cpp.o: \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/rep_cmd.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../filesystem/login.h \
  /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../filesystem/logout.h \
- /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../filesystem/session_manager.h
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../filesystem/session_manager.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/remove_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/rename_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/copy_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/move_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/find_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/chown_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/chmod_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/journaling_cmd.h \
+ /home/mariano/MIA_1S2026_P1_202101149/frontend/backend/core/server/../commands/loss_cmd.h

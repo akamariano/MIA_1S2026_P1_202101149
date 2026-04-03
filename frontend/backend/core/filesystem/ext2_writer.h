@@ -33,6 +33,12 @@ public:
     static std::string readUsersFile(FILE* disk, SuperBlock& sb,
                                      long long partStart);
 
+    // Crea directorio público (usado por copy)
+    static int createDirPublic(FILE* disk, SuperBlock& sb,
+                                long long partStart,
+                                int parentInode,
+                                const std::string& name,
+                                int uid, int gid);
 private:
     // Crea un inodo de carpeta y lo registra en su padre
     static int createDirectory(FILE* disk, SuperBlock& sb,
